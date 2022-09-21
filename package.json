@@ -1,5 +1,5 @@
 {
-   "name": "copy-file-cli",
+   "name": "copy-file-util",
    "version": "0.0.1",
    "description": "A file copy and rename utility designed for use in npm scripts (written in functional TypeScript)",
    "license": "MIT",
@@ -20,10 +20,10 @@
    "bin": {
       "copy-file": "bin/cli.js"
    },
-   "repository": "github:center-key/copy-file-cli",
-   "homepage": "https://github.com/center-key/copy-file-cli",
-   "bugs": "https://github.com/center-key/copy-file-cli/issues",
-   "docs": "https://github.com/center-key/copy-file-cli#readme",
+   "repository": "github:center-key/copy-file-util",
+   "homepage": "https://github.com/center-key/copy-file-util",
+   "bugs": "https://github.com/center-key/copy-file-util/issues",
+   "docs": "https://github.com/center-key/copy-file-util#readme",
    "author": "Center Key (https://centerkey.com)",
    "keywords": [
       "cli",

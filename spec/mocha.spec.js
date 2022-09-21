@@ -1,4 +1,4 @@
-// copy-file-cli
+// copy-file-util
 // Mocha Specification Suite
 
 // Imports
@@ -73,14 +73,14 @@ describe('Correct error is thrown', () => {
 
    it('when the "source" file is missing', () => {
       const makeBogusCall = () => copyFile.cp();
-      const exception =     { message: '[copy-file-cli] Must specify the source file.' };
+      const exception =     { message: '[copy-file-util] Must specify the source file.' };
       assert.throws(makeBogusCall, exception);
       });
 
    it('when the "target" is missing', () => {
       const source = 'spec/fixtures/source/mock.txt';
       const makeBogusCall = () => copyFile.cp(source);
-      const exception =     { message: '[copy-file-cli] Must specify a target file or folder.' };
+      const exception =     { message: '[copy-file-util] Must specify a target file or folder.' };
       assert.throws(makeBogusCall, exception);
       });
 

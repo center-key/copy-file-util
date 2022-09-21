@@ -1,20 +1,20 @@
-# copy-file-cli
+# copy-file-util
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
 _A file copy and rename utility designed for use in npm scripts_
 
-[![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-file-cli/blob/main/LICENSE.txt)
-[![npm](https://img.shields.io/npm/v/copy-file-cli.svg)](https://www.npmjs.com/package/copy-file-cli)
-[![Vulnerabilities](https://snyk.io/test/github/center-key/copy-file-cli/badge.svg)](https://snyk.io/test/github/center-key/copy-file-cli)
-[![Build](https://github.com/center-key/copy-file-cli/workflows/build/badge.svg)](https://github.com/center-key/copy-file-cli/actions/workflows/run-spec-on-push.yaml)
+[![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-file-util/blob/main/LICENSE.txt)
+[![npm](https://img.shields.io/npm/v/copy-file-util.svg)](https://www.npmjs.com/package/copy-file-util)
+[![Vulnerabilities](https://snyk.io/test/github/center-key/copy-file-util/badge.svg)](https://snyk.io/test/github/center-key/copy-file-util)
+[![Build](https://github.com/center-key/copy-file-util/workflows/build/badge.svg)](https://github.com/center-key/copy-file-util/actions/workflows/run-spec-on-push.yaml)
 
-**copy-file-cli** copies a folder and its subfolders.
+**copy-file-util** copies a folder and its subfolders.
 
 ## A) Setup
 
 Install package for node:
 ```shell
-$ npm install --save-dev copy-file-cli
+$ npm install --save-dev copy-file-util
 ```
 
 ## B) Usage
@@ -36,19 +36,19 @@ Example **package.json** script:
 Try out the script with the command: `npm run pub-license`
 
 ### 2. Global
-You can install **copy-file-cli** globally and then run it anywhere directly from the terminal.
+You can install **copy-file-util** globally and then run it anywhere directly from the terminal.
 
 Example terminal commands:
 ```shell
-$ npm install --global copy-file-cli
+$ npm install --global copy-file-util
 $ copy-file src/web/api.html docs/api-manual.html
 ```
 
 ### 3. ESM and TypeScript Code
-Even though **copy-file-cli** is primarily intended for build scripts, the package can easily be used in ESM and TypeScript projects.
+Even though **copy-file-util** is primarily intended for build scripts, the package can easily be used in ESM and TypeScript projects.
 
 ``` typescript
-import { copyFile } from 'copy-file-cli';
+import { copyFile } from 'copy-file-util';
 const result = copyFile.cp('src/web/api.html' { targetFile: 'docs/api-manual.html' });
 console.log('Execution time:', result.duration, 'ms');
 ```
@@ -71,7 +71,7 @@ See the **TypeScript Declaration File** file [copy-file.d.ts](dist/copy-file.d.t
 ---
 **Build Tools**
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Adds a header comment to a file and saves it to your distribution folder_
-   - 📄 [copy-file-cli](https://github.com/center-key/copy-file-cli):&nbsp; _A file copy and rename utility designed for use in npm scripts_
+   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _A file copy and rename utility designed for use in npm scripts_
    - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _A recursive directory file copy utility designed for use in npm scripts_
 
 [MIT License](LICENSE.txt)

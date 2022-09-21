@@ -2,10 +2,10 @@
 <html lang=en>
    <head>
       <meta charset=utf-8>
-      <title>📂📂📂 copy-file-cli 📂📂📂</title>
+      <title>📂📂📂 copy-file-util 📂📂📂</title>
    </head>
    <body>
-      <h1>📂📂📂 copy-file-cli 📂📂📂</h1>
+      <h1>📂📂📂 copy-file-util 📂📂📂</h1>
       <h2>A file copy and rename utility designed for use in npm scripts</h2>
    </body>
 </html>

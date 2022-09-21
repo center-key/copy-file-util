@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-///////////////////
-// copy-file-cli //
-// MIT License   //
-///////////////////
+////////////////////
+// copy-file-util //
+// MIT License    //
+////////////////////
 
 // Usage in package.json:
 //    "scripts": {
@@ -10,11 +10,11 @@
 //    },
 //
 // Usage from command line:
-//    $ npm install --global copy-file-cli
+//    $ npm install --global copy-file-util
 //    $ copy-file src/LICENSE doc/license.txt
 //
 // Contributors to this project:
-//    $ cd copy-file-cli
+//    $ cd copy-file-util
 //    $ npm install
 //    $ npm test
 //    $ node bin/cli.js spec/fixtures/source/mock.txt --folder spec/fixtures/target/to-folder
@@ -35,7 +35,7 @@ const target =     params[1];
 
 // Reporting
 const printReport = (result) => {
-   const name =   chalk.gray('copy-file-cli');
+   const name =   chalk.gray('copy-file-util');
    const origin = chalk.blue.bold(result.origin);
    const dest =   chalk.magenta(result.dest);
    const arrow =  chalk.gray.bold(' ⟹  ');  //extra space for alignment

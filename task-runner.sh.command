@@ -1,13 +1,13 @@
 #!/bin/bash
-#################
-# Task Runner   #
-# copy-file-cli #
-#################
+##################
+# Task Runner    #
+# copy-file-util #
+##################
 
 # To make this file runnable:
 #     $ chmod +x *.sh.command
 
-banner="copy-file-cli"
+banner="copy-file-util"
 projectHome=$(cd $(dirname $0); pwd)
 
 setupTools() {

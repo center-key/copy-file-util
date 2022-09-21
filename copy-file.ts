@@ -1,4 +1,4 @@
-// copy-file-cli ~~ MIT License
+// copy-file-util ~~ MIT License
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -47,7 +47,7 @@ const copyFile = {
          badTargetFolder ?        'Target folder cannot be written to: ' + targetFolder :
          null;
       if (errorMessage)
-         throw Error('[copy-file-cli] ' + errorMessage);
+         throw Error('[copy-file-util] ' + errorMessage);
       fs.copySync(source, target);
       return {
          origin:   source,
