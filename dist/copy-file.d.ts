@@ -1,4 +1,4 @@
-//! copy-file-cli v0.0.1 ~~ https://github.com/center-key/copy-file-cli ~~ MIT License
+//! copy-file-util v0.0.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 export declare type Options = {
     targetFile?: string;

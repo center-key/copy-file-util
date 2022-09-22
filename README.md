@@ -1,7 +1,7 @@
 # copy-file-util
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
-_A file copy and rename utility designed for use in npm scripts_
+_A file copy and rename cli tool designed for use in npm scripts_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-file-util/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/copy-file-util.svg)](https://www.npmjs.com/package/copy-file-util)
@@ -71,7 +71,7 @@ See the **TypeScript Declaration File** file [copy-file.d.ts](dist/copy-file.d.t
 ---
 **Build Tools**
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Adds a header comment to a file and saves it to your distribution folder_
-   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _A file copy and rename utility designed for use in npm scripts_
+   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _A file copy and rename cli tool designed for use in npm scripts_
    - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _A recursive directory file copy utility designed for use in npm scripts_
 
 [MIT License](LICENSE.txt)

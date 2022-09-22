@@ -1,7 +1,7 @@
 {
    "name": "copy-file-util",
-   "version": "0.0.1",
-   "description": "A file copy and rename utility designed for use in npm scripts (written in functional TypeScript)",
+   "version": "0.0.2",
+   "description": "A file copy and rename cli tool designed for use in npm scripts (written in functional TypeScript)",
    "license": "MIT",
    "type": "module",
    "module": "dist/copy-file.js",

@@ -1,4 +1,4 @@
-//! copy-file-cli v0.0.1 ~~ https://github.com/center-key/copy-file-cli ~~ MIT License
+//! copy-file-util v0.0.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -48,7 +48,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                                     badTargetFolder ? 'Target folder cannot be written to: ' + targetFolder :
                                         null;
             if (errorMessage)
-                throw Error('[copy-file-cli] ' + errorMessage);
+                throw Error('[copy-file-util] ' + errorMessage);
             fs_extra_1.default.copySync(source, target);
             return {
                 origin: source,
