@@ -1,6 +1,7 @@
-//! copy-file-util v0.0.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v0.1.0 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 export declare type Options = {
+    cd?: string;
     targetFile?: string;
     targetFolder?: string;
     fileExtension?: string;

@@ -1,4 +1,4 @@
-//! copy-file-util v0.0.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v0.1.0 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -7,6 +7,7 @@ const copyFile = {
     cp(sourceFile, options) {
         var _a;
         const defaults = {
+            cd: null,
             targetFile: null,
             targetFolder: null,
             fileExtension: null,
@@ -16,11 +17,14 @@ const copyFile = {
         const missingTarget = !settings.targetFile && !settings.targetFolder;
         const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
         const normalize = (folder) => !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-        const source = normalize(sourceFile);
+        const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
+        const source = normalize(startFolder + sourceFile);
         const sourceExists = fs.pathExistsSync(source);
         const sourceIsFile = sourceExists && fs.statSync(source).isFile();
-        const targetFolder = normalize(settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder);
-        const target = normalize((_a = settings.targetFile) !== null && _a !== void 0 ? _a : settings.targetFolder + '/' + path.basename(source));
+        const targetPath = settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
+        const targetFolder = normalize(startFolder + targetPath);
+        const targetFile = (_a = settings.targetFile) !== null && _a !== void 0 ? _a : settings.targetFolder + '/' + path.basename(source);
+        const target = normalize(startFolder + targetFile);
         if (targetFolder)
             fs.ensureDirSync(targetFolder);
         const badTargetFolder = !fs.pathExistsSync(targetFolder);

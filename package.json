@@ -1,7 +1,7 @@
 {
    "name": "copy-file-util",
-   "version": "0.0.2",
-   "description": "A file copy and rename cli tool designed for use in npm scripts (written in functional TypeScript)",
+   "version": "0.1.0",
+   "description": "Copy or rename a file (CLI tool designed for use in npm scripts)",
    "license": "MIT",
    "type": "module",
    "module": "dist/copy-file.js",
@@ -69,8 +69,7 @@
       "step:04": "tsc",
       "step:05": "tsc --module UMD --outDir build/umd",
       "step:06": "cpy build/umd/copy-file.js build --rename=copy-file.umd.cjs --flat=true",
-      "step:07": "cpy build/copy-file.* dist --flat=true",
-      "step:08": "add-dist-header build dist",
+      "step:07": "add-dist-header build dist",
       "pretest": "npm-run-all step:*",
       "test": "mocha spec/*.spec.js"
    },

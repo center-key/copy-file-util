@@ -1,4 +1,4 @@
-//! copy-file-util v0.0.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v0.1.0 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -22,6 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         cp(sourceFile, options) {
             var _a;
             const defaults = {
+                cd: null,
                 targetFile: null,
                 targetFolder: null,
                 fileExtension: null,
@@ -31,11 +32,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const missingTarget = !settings.targetFile && !settings.targetFolder;
             const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
             const normalize = (folder) => !folder ? '' : (0, slash_1.default)(path_1.default.normalize(folder)).replace(/\/$/, '');
-            const source = normalize(sourceFile);
+            const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
+            const source = normalize(startFolder + sourceFile);
             const sourceExists = fs_extra_1.default.pathExistsSync(source);
             const sourceIsFile = sourceExists && fs_extra_1.default.statSync(source).isFile();
-            const targetFolder = normalize(settings.targetFile ? path_1.default.dirname(settings.targetFile) : settings.targetFolder);
-            const target = normalize((_a = settings.targetFile) !== null && _a !== void 0 ? _a : settings.targetFolder + '/' + path_1.default.basename(source));
+            const targetPath = settings.targetFile ? path_1.default.dirname(settings.targetFile) : settings.targetFolder;
+            const targetFolder = normalize(startFolder + targetPath);
+            const targetFile = (_a = settings.targetFile) !== null && _a !== void 0 ? _a : settings.targetFolder + '/' + path_1.default.basename(source);
+            const target = normalize(startFolder + targetFile);
             if (targetFolder)
                 fs_extra_1.default.ensureDirSync(targetFolder);
             const badTargetFolder = !fs_extra_1.default.pathExistsSync(targetFolder);
