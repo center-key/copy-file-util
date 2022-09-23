@@ -48,7 +48,7 @@ describe('Library module', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Calling copyFile.cp()', () => {
 
-   it('with a target file correctly copies a file', () => {
+   it('with a target file correctly renames a file', () => {
       const source = 'spec/fixtures/source/mock.txt';
       const target = 'spec/fixtures/target/to-file/mock2.txt';
       copyFile.cp(source, { targetFile: target });
@@ -63,6 +63,24 @@ describe('Calling copyFile.cp()', () => {
       copyFile.cp(source, { targetFolder: target });
       const actual =   readDirSync('spec/fixtures/target/to-folder');
       const expected = ['mock.txt'];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   it('with "cd" set copies the file to the correct folder', () => {
+      const source = 'source/mock.txt';
+      const target = 'target/cd';
+      copyFile.cp(source, { cd: 'spec/fixtures', targetFolder: target });
+      const actual =   readDirSync('spec/fixtures/target/cd');
+      const expected = ['mock.txt'];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   it('with "cd" set correctly renames the file', () => {
+      const source = 'source/mock.txt';
+      const target = 'target/cd-rename/mock2.txt';
+      copyFile.cp(source, { cd: 'spec/fixtures', targetFile: target });
+      const actual =   readDirSync('spec/fixtures/target/cd-rename');
+      const expected = ['mock2.txt'];
       assertDeepStrictEqual(actual, expected);
       });
 

@@ -5,6 +5,7 @@ import path from 'path';
 import slash from 'slash';
 
 export type Options = {
+   cd?:            string,  //change working directory before starting copy
    targetFile?:    string,  //destination path for file copy operation
    targetFolder?:  string,  //destination folder for file copy operation
    fileExtension?: string,  //new file extension for the target file
@@ -19,6 +20,7 @@ const copyFile = {
 
    cp(sourceFile: string, options: Options): Result {
       const defaults = {
+         cd:            null,
          targetFile:    null,
          targetFolder:  null,
          fileExtension: null,
@@ -29,11 +31,14 @@ const copyFile = {
       const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
       const normalize = (folder: string | null) =>
          !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-      const source =       normalize(sourceFile);
+      const startFolder =  settings.cd ? normalize(settings.cd) + '/' : '';
+      const source =       normalize(startFolder + sourceFile);
       const sourceExists = fs.pathExistsSync(source);
       const sourceIsFile = sourceExists && fs.statSync(source).isFile();
-      const targetFolder = normalize(settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder);
-      const target =       normalize(settings.targetFile ?? settings.targetFolder + '/' + path.basename(source));
+      const targetPath =   settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
+      const targetFolder = normalize(startFolder + targetPath);
+      const targetFile =   settings.targetFile ?? settings.targetFolder + '/' + path.basename(source);
+      const target =       normalize(startFolder + targetFile);
       if (targetFolder)
          fs.ensureDirSync(targetFolder);
       const badTargetFolder = !fs.pathExistsSync(targetFolder);
