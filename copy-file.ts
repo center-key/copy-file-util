@@ -1,7 +1,7 @@
 // copy-file-util ~~ MIT License
 
-import fs from 'fs-extra';
-import path from 'path';
+import fs    from 'fs-extra';
+import path  from 'path';
 import slash from 'slash';
 
 export type Options = {

@@ -8,32 +8,29 @@ _Copy or rename a file (CLI tool designed for use in npm scripts)_
 [![Vulnerabilities](https://snyk.io/test/github/center-key/copy-file-util/badge.svg)](https://snyk.io/test/github/center-key/copy-file-util)
 [![Build](https://github.com/center-key/copy-file-util/workflows/build/badge.svg)](https://github.com/center-key/copy-file-util/actions/workflows/run-spec-on-push.yaml)
 
-**copy-file-util** copies a folder and its subfolders.
+**copy-file-util** takes a source file and copies it to a new destination.  The console output includes a timestamp and formatting helpful in build systems.
 
 ## A) Setup
-
 Install package for node:
 ```shell
 $ npm install --save-dev copy-file-util
 ```
 
 ## B) Usage
-
 ### 1. npm scripts
-Call `copy-file` from the `"scripts"` section of your **package.json** file.
+Run `copy-file` from the `"scripts"` section of your **package.json** file.
 
 The **first** parameter is the *source* file.
-The **second** parameter is the *target* file or folder (use the `--fodler` flag).
+The **second** parameter is the *target* file or folder (use the `--folder` flag).
 
-Example **package.json** script:
+Example **package.json** scripts:
 ```json
    "scripts": {
       "pub-license": "copy-file src/LICENSE doc/license.txt",
       "backup-license": "copy-file src/LICENSE --folder backup",
    },
 ```
-
-Try out the script with the command: `npm run pub-license`
+Try out the first script with the command: `npm run pub-license`
 
 ### 2. Global
 You can install **copy-file-util** globally and then run it anywhere directly from the terminal.
@@ -44,27 +41,28 @@ $ npm install --global copy-file-util
 $ copy-file src/web/api.html docs/api-manual.html
 ```
 
-### 3. ESM and TypeScript Code
+### 3. CLI Flags
+Command-line flags:
+| Flag       | Description                       | Values | Default |
+| ---------- | --------------------------------- | ------ | ------- |
+| `--folder` | Indicates the target is a folder. | N/A    | N/A     |
+| `--quiet`  | Suppress informational messages.  | N/A    | N/A     |
+
+Examples:
+   - `copy-file app.js app.mjs --quite` &nbsp; Displays no output.
+   - `copy-file app.js --folder dist` &nbsp; Copies **app.js** into the **dist** folder.
+
+## C) Application Code
 Even though **copy-file-util** is primarily intended for build scripts, the package can easily be used in ESM and TypeScript projects.
 
+Example:
 ``` typescript
 import { copyFile } from 'copy-file-util';
 const result = copyFile.cp('src/web/api.html' { targetFile: 'docs/api-manual.html' });
 console.log('Execution time:', result.duration, 'ms');
 ```
 
-See the **TypeScript Declaration File** file [copy-file.d.ts](dist/copy-file.d.ts) in the **dist** folder for documentation.
-
-## C) CLI Flags
-
-| Flag       | Description                       | Values | Default |
-| ---------- | --------------------------------- | ------ | ------- |
-| `--folder` | Indicates the target is a folder. | N/A    | N/A     |
-| `--quiet`  | Suppress informational messages.  | N/A    | N/A     |
-
-### Examples
-   - `copy-file app.js app.mjs --quite` &nbsp; Displays no output.
-   - `copy-file app.js --folder dist` &nbsp; Copies **app.js** into the **dist** folder.
+See the **TypeScript Declarations** at the top of [copy-file.ts](copy-file.ts) for documentation.
 
 <br>
 

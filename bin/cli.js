@@ -25,17 +25,21 @@ import chalk        from 'chalk';
 import log          from 'fancy-log';
 
 // Parameters
-const validFlags = ['cd', 'folder', 'quiet'];
-const args =       process.argv.slice(2);
-const flags =      args.filter(arg => /^--/.test(arg));
-const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
-const params =     args.filter(arg => !/^--/.test(arg));
-const source =     params[0];
-const target =     params[1];
+const validFlags =  ['cd', 'folder', 'quiet'];
+const args =        process.argv.slice(2);
+const flags =       args.filter(arg => /^--/.test(arg));
+const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
+const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
+const params =      args.filter(arg => !/^--/.test(arg));
+
+// Data
+const source = params[0];
+const target = params[1];
+const mode =   { folder: 'folder' in flagMap, quiet: 'quiet' in flagMap };
 
 // Reporting
 const printReport = (result) => {
-   const name =   chalk.gray('copy-file-util');
+   const name =   chalk.gray('copy-file');
    const origin = chalk.blue.bold(result.origin);
    const dest =   chalk.magenta(result.dest);
    const arrow =  chalk.gray.bold(' ⟹  ');  //extra space for alignment
@@ -44,8 +48,6 @@ const printReport = (result) => {
    };
 
 // Copy File
-const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
-const mode =        { folder: 'folder' in flagMap, quiet: 'quiet' in flagMap };
 const error =
    invalidFlag ?            'Invalid flag: ' + invalidFlag :
    params.length > 2 ?      'Extraneous parameter: ' + params[2] :
@@ -54,7 +56,7 @@ const error =
    !target ?                'Missing target file.' :
    null;
 if (error)
-   throw Error('[copy-file] ' + error);
+   throw Error('[copy-file-util] ' + error);
 const targetKey = mode.folder ? 'targetFolder' : 'targetFile';
 const options = {
    cd:          flagMap.cd ?? null,

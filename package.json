@@ -18,7 +18,8 @@
       "./": "./dist/"
    },
    "bin": {
-      "copy-file": "bin/cli.js"
+      "copy-file": "bin/cli.js",
+      "copy-file-util": "bin/cli.js"
    },
    "repository": "github:center-key/copy-file-util",
    "homepage": "https://github.com/center-key/copy-file-util",
@@ -88,7 +89,7 @@
       "add-dist-header": "~0.2",
       "assert-deep-strict-equal": "~1.0",
       "cpy-cli": "~4.2",
-      "eslint": "~8.23",
+      "eslint": "~8.24",
       "jshint": "~2.13",
       "mocha": "~10.0",
       "npm-run-all2": "~6.0",
