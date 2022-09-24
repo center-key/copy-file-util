@@ -31,17 +31,18 @@ const copyFile = {
       const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
       const normalize = (folder: string | null) =>
          !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-      const startFolder =  settings.cd ? normalize(settings.cd) + '/' : '';
-      const source =       normalize(startFolder + sourceFile);
-      const sourceExists = fs.pathExistsSync(source);
-      const sourceIsFile = sourceExists && fs.statSync(source).isFile();
-      const targetPath =   settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
-      const targetFolder = normalize(startFolder + targetPath);
-      const targetFile =   settings.targetFile ?? settings.targetFolder + '/' + path.basename(source);
-      const target =       normalize(startFolder + targetFile);
+      const startFolder =    settings.cd ? normalize(settings.cd) + '/' : '';
+      const source =         sourceFile ? normalize(startFolder + sourceFile) : '';
+      const sourceExists =   source && fs.pathExistsSync(source);
+      const sourceIsFile =   sourceExists && fs.statSync(source).isFile();
+      const sourceFilename = sourceIsFile ? path.basename(source) : null;
+      const targetPath =     settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
+      const targetFolder =   targetPath ? normalize(startFolder + targetPath) : null;
+      const targetFile =     settings.targetFile ?? settings.targetFolder + '/' + sourceFilename;
+      const target =         normalize(startFolder + targetFile);
       if (targetFolder)
          fs.ensureDirSync(targetFolder);
-      const badTargetFolder = !fs.pathExistsSync(targetFolder);
+      const badTargetFolder = !targetFolder || !fs.pathExistsSync(targetFolder);
       const errorMessage =
          settings.fileExtension ? 'Option "fileExtension" not yet implemented.' :
          !sourceFile ?            'Must specify the source file.' :
