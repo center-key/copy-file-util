@@ -32,6 +32,9 @@ Example **package.json** scripts:
 ```
 Try out the first script with the command: `npm run pub-license`
 
+<img src=https://raw.githubusercontent.com/center-key/copy-file-util/main/screenshot.png
+width=800 alt=screenshot>
+
 ### 2. Global
 You can install **copy-file-util** globally and then run it anywhere directly from the terminal.
 
