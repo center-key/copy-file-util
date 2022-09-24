@@ -1,4 +1,4 @@
-//! copy-file-util v0.1.1 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v0.1.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -33,16 +33,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
             const normalize = (folder) => !folder ? '' : (0, slash_1.default)(path_1.default.normalize(folder)).replace(/\/$/, '');
             const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
-            const source = normalize(startFolder + sourceFile);
-            const sourceExists = fs_extra_1.default.pathExistsSync(source);
+            const source = sourceFile ? normalize(startFolder + sourceFile) : '';
+            const sourceExists = source && fs_extra_1.default.pathExistsSync(source);
             const sourceIsFile = sourceExists && fs_extra_1.default.statSync(source).isFile();
+            const sourceFilename = sourceIsFile ? path_1.default.basename(source) : null;
             const targetPath = settings.targetFile ? path_1.default.dirname(settings.targetFile) : settings.targetFolder;
-            const targetFolder = normalize(startFolder + targetPath);
-            const targetFile = (_a = settings.targetFile) !== null && _a !== void 0 ? _a : settings.targetFolder + '/' + path_1.default.basename(source);
+            const targetFolder = targetPath ? normalize(startFolder + targetPath) : null;
+            const targetFile = (_a = settings.targetFile) !== null && _a !== void 0 ? _a : settings.targetFolder + '/' + sourceFilename;
             const target = normalize(startFolder + targetFile);
             if (targetFolder)
                 fs_extra_1.default.ensureDirSync(targetFolder);
-            const badTargetFolder = !fs_extra_1.default.pathExistsSync(targetFolder);
+            const badTargetFolder = !targetFolder || !fs_extra_1.default.pathExistsSync(targetFolder);
             const errorMessage = settings.fileExtension ? 'Option "fileExtension" not yet implemented.' :
                 !sourceFile ? 'Must specify the source file.' :
                     !sourceExists ? 'Source file does not exist: ' + source :
