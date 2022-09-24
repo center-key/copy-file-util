@@ -1,4 +1,4 @@
-//! copy-file-util v0.1.0 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v0.1.1 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 import fs from 'fs-extra';
 import path from 'path';
