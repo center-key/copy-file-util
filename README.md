@@ -10,6 +10,9 @@ _Copy or rename a file (CLI tool designed for use in npm scripts)_
 
 **copy-file-util** takes a source file and copies it to a new destination.  The console output includes a timestamp and formatting helpful in build systems.
 
+<img src=https://raw.githubusercontent.com/center-key/copy-file-util/main/screenshot.png
+width=800 alt=screenshot>
+
 ## A) Setup
 Install package for node:
 ```shell
@@ -31,9 +34,6 @@ Example **package.json** scripts:
    },
 ```
 Try out the first script with the command: `npm run pub-license`
-
-<img src=https://raw.githubusercontent.com/center-key/copy-file-util/main/screenshot.png
-width=800 alt=screenshot>
 
 ### 2. Global
 You can install **copy-file-util** globally and then run it anywhere directly from the terminal.
