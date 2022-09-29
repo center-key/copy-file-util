@@ -4,12 +4,13 @@ import fs    from 'fs-extra';
 import path  from 'path';
 import slash from 'slash';
 
-export type Options = {
-   cd?:            string,  //change working directory before starting copy
-   targetFile?:    string,  //destination path for file copy operation
-   targetFolder?:  string,  //destination folder for file copy operation
-   fileExtension?: string,  //new file extension for the target file
+export type Settings = {
+   cd:            string,  //change working directory before starting copy
+   targetFile:    string,  //destination path for file copy operation
+   targetFolder:  string,  //destination folder for file copy operation
+   fileExtension: string,  //new file extension for the target file
    };
+export type Options = Partial<Settings>;
 export type Result = {
    origin:   string,  //path of origination file
    dest:     string,  //path of destination file
