@@ -3,21 +3,17 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
-import { readdirSync } from 'fs';
 import assert from 'assert';
-import slash from 'slash';
+import fs     from 'fs';
 
 // Setup
 import { copyFile } from '../dist/copy-file.js';
-
-// Utilities
-const readDirSync = (folder) => readdirSync(folder).map(file => slash(file)).sort();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('The "dist" folder', () => {
 
    it('contains the correct files', () => {
-      const actual = readDirSync('dist');
+      const actual = fs.readdirSync('dist').sort();
       const expected = [
          'copy-file.d.ts',
          'copy-file.js',
@@ -52,7 +48,7 @@ describe('Calling copyFile.cp()', () => {
       const source = 'spec/fixtures/source/mock.txt';
       const target = 'spec/fixtures/target/to-file/mock2.txt';
       copyFile.cp(source, { targetFile: target });
-      const actual =   readDirSync('spec/fixtures/target/to-file');
+      const actual =   fs.readdirSync('spec/fixtures/target/to-file');
       const expected = ['mock2.txt'];
       assertDeepStrictEqual(actual, expected);
       });
@@ -61,7 +57,7 @@ describe('Calling copyFile.cp()', () => {
       const source = 'spec/fixtures/source/mock.txt';
       const target = 'spec/fixtures/target/to-folder';
       copyFile.cp(source, { targetFolder: target });
-      const actual =   readDirSync('spec/fixtures/target/to-folder');
+      const actual =   fs.readdirSync('spec/fixtures/target/to-folder');
       const expected = ['mock.txt'];
       assertDeepStrictEqual(actual, expected);
       });
@@ -70,7 +66,7 @@ describe('Calling copyFile.cp()', () => {
       const source = 'source/mock.txt';
       const target = 'target/cd';
       copyFile.cp(source, { cd: 'spec/fixtures', targetFolder: target });
-      const actual =   readDirSync('spec/fixtures/target/cd');
+      const actual =   fs.readdirSync('spec/fixtures/target/cd');
       const expected = ['mock.txt'];
       assertDeepStrictEqual(actual, expected);
       });
@@ -79,7 +75,7 @@ describe('Calling copyFile.cp()', () => {
       const source = 'source/mock.txt';
       const target = 'target/cd-rename/mock2.txt';
       copyFile.cp(source, { cd: 'spec/fixtures', targetFile: target });
-      const actual =   readDirSync('spec/fixtures/target/cd-rename');
+      const actual =   fs.readdirSync('spec/fixtures/target/cd-rename');
       const expected = ['mock2.txt'];
       assertDeepStrictEqual(actual, expected);
       });

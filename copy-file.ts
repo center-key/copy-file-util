@@ -1,6 +1,6 @@
 // copy-file-util ~~ MIT License
 
-import fs    from 'fs-extra';
+import fs    from 'fs';
 import path  from 'path';
 import slash from 'slash';
 
@@ -34,7 +34,7 @@ const copyFile = {
          !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
       const startFolder =    settings.cd ? normalize(settings.cd) + '/' : '';
       const source =         sourceFile ? normalize(startFolder + sourceFile) : '';
-      const sourceExists =   source && fs.pathExistsSync(source);
+      const sourceExists =   source && fs.existsSync(source);
       const sourceIsFile =   sourceExists && fs.statSync(source).isFile();
       const sourceFilename = sourceIsFile ? path.basename(source) : null;
       const targetPath =     settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
@@ -42,8 +42,8 @@ const copyFile = {
       const targetFile =     settings.targetFile ?? settings.targetFolder + '/' + sourceFilename;
       const target =         normalize(startFolder + targetFile);
       if (targetFolder)
-         fs.ensureDirSync(targetFolder);
-      const badTargetFolder = !targetFolder || !fs.pathExistsSync(targetFolder);
+         fs.mkdirSync(targetFolder, { recursive: true });
+      const badTargetFolder = !targetFolder || !fs.existsSync(targetFolder);
       const errorMessage =
          settings.fileExtension ? 'Option "fileExtension" not yet implemented.' :
          !sourceFile ?            'Must specify the source file.' :
@@ -55,7 +55,7 @@ const copyFile = {
          null;
       if (errorMessage)
          throw Error('[copy-file-util] ' + errorMessage);
-      fs.copySync(source, target);
+      fs.copyFileSync(source, target);
       return {
          origin:   source,
          dest:     target,
