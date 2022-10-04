@@ -1,4 +1,4 @@
-//! copy-file-util v0.1.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v0.1.3 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -9,13 +9,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "fs-extra", "path", "slash"], factory);
+        define(["require", "exports", "fs", "path", "slash"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.copyFile = void 0;
-    const fs_extra_1 = __importDefault(require("fs-extra"));
+    const fs_1 = __importDefault(require("fs"));
     const path_1 = __importDefault(require("path"));
     const slash_1 = __importDefault(require("slash"));
     const copyFile = {
@@ -34,16 +34,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const normalize = (folder) => !folder ? '' : (0, slash_1.default)(path_1.default.normalize(folder)).replace(/\/$/, '');
             const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
             const source = sourceFile ? normalize(startFolder + sourceFile) : '';
-            const sourceExists = source && fs_extra_1.default.pathExistsSync(source);
-            const sourceIsFile = sourceExists && fs_extra_1.default.statSync(source).isFile();
+            const sourceExists = source && fs_1.default.existsSync(source);
+            const sourceIsFile = sourceExists && fs_1.default.statSync(source).isFile();
             const sourceFilename = sourceIsFile ? path_1.default.basename(source) : null;
             const targetPath = settings.targetFile ? path_1.default.dirname(settings.targetFile) : settings.targetFolder;
             const targetFolder = targetPath ? normalize(startFolder + targetPath) : null;
             const targetFile = (_a = settings.targetFile) !== null && _a !== void 0 ? _a : settings.targetFolder + '/' + sourceFilename;
             const target = normalize(startFolder + targetFile);
             if (targetFolder)
-                fs_extra_1.default.ensureDirSync(targetFolder);
-            const badTargetFolder = !targetFolder || !fs_extra_1.default.pathExistsSync(targetFolder);
+                fs_1.default.mkdirSync(targetFolder, { recursive: true });
+            const badTargetFolder = !targetFolder || !fs_1.default.existsSync(targetFolder);
             const errorMessage = settings.fileExtension ? 'Option "fileExtension" not yet implemented.' :
                 !sourceFile ? 'Must specify the source file.' :
                     !sourceExists ? 'Source file does not exist: ' + source :
@@ -54,7 +54,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                                         null;
             if (errorMessage)
                 throw Error('[copy-file-util] ' + errorMessage);
-            fs_extra_1.default.copySync(source, target);
+            fs_1.default.copyFileSync(source, target);
             return {
                 origin: source,
                 dest: target,

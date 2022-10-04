@@ -8,7 +8,7 @@ _Copy or rename a file (CLI tool designed for use in npm scripts)_
 [![Vulnerabilities](https://snyk.io/test/github/center-key/copy-file-util/badge.svg)](https://snyk.io/test/github/center-key/copy-file-util)
 [![Build](https://github.com/center-key/copy-file-util/workflows/build/badge.svg)](https://github.com/center-key/copy-file-util/actions/workflows/run-spec-on-push.yaml)
 
-**copy-file-util** takes a source file and copies it to a new destination.  The console output includes a timestamp and formatting helpful in build systems.
+**copy-file-util** takes a source file and copies it to a new destination.  The command's console output includes a timestamp and formatting helpful in build systems.
 
 <img src=https://raw.githubusercontent.com/center-key/copy-file-util/main/screenshot.png
 width=800 alt=screenshot>
@@ -46,10 +46,11 @@ $ copy-file src/web/api.html docs/api-manual.html
 
 ### 3. CLI Flags
 Command-line flags:
-| Flag       | Description                       | Values | Default |
-| ---------- | --------------------------------- | ------ | ------- |
-| `--folder` | Indicates the target is a folder. | N/A    | N/A     |
-| `--quiet`  | Suppress informational messages.  | N/A    | N/A     |
+| Flag       | Description                                    | Values     |
+| ---------- | ---------------------------------------------- | ---------- |
+| `--cd`     | Change working directory before starting copy. | **string** |
+| `--folder` | Indicates the target is a folder.              | N/A        |
+| `--quiet`  | Suppress informational messages.               | N/A        |
 
 Examples:
    - `copy-file app.js app.mjs --quite` &nbsp; Displays no output.
@@ -71,9 +72,10 @@ See the **TypeScript Declarations** at the top of [copy-file.ts](copy-file.ts) f
 
 ---
 **Build Tools**
-   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line header comment (with license notice) to distribution files_
+   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
    - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file (CLI tool designed for use in npm scripts)_
    - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _Recursively copy a folder (CLI tool designed for use in npm scripts)_
+   - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
    - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
 
 Feel free to submit questions at:<br>
