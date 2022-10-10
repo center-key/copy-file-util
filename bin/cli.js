@@ -30,13 +30,13 @@ const validFlags =  ['cd', 'folder', 'quiet'];
 const args =        process.argv.slice(2);
 const flags =       args.filter(arg => /^--/.test(arg));
 const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
+const flagOn =      Object.fromEntries(validFlags.map(flag => [flag, flag in flagMap]));
 const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
 const params =      args.filter(arg => !/^--/.test(arg));
 
 // Data
 const source = params[0];
 const target = params[1];
-const mode =   { folder: 'folder' in flagMap, quiet: 'quiet' in flagMap };
 
 // Utilities
 const getPackageVersion = () => !fs.existsSync('package.json') ? 'ERROR' :
@@ -54,19 +54,19 @@ const printReport = (result) => {
 
 // Copy File
 const error =
-   invalidFlag ?            'Invalid flag: ' + invalidFlag :
-   params.length > 2 ?      'Extraneous parameter: ' + params[2] :
-   !source ?                'Missing source file.' :
-   !target && mode.folder ? 'Missing target folder.' :
-   !target ?                'Missing target file.' :
+   invalidFlag ?              'Invalid flag: ' + invalidFlag :
+   params.length > 2 ?        'Extraneous parameter: ' + params[2] :
+   !source ?                  'Missing source file.' :
+   !target && flagOn.folder ? 'Missing target folder.' :
+   !target ?                  'Missing target file.' :
    null;
 if (error)
    throw Error('[copy-file-util] ' + error);
-const targetKey = mode.folder ? 'targetFolder' : 'targetFile';
+const targetKey = flagOn.folder ? 'targetFolder' : 'targetFile';
 const options = {
    cd:          flagMap.cd ?? null,
    [targetKey]: target.replace(/{{{pkg.version}}}/, getPackageVersion),
    };
 const result = copyFile.cp(source, options);
-if (!mode.quiet)
+if (!flagOn.quiet)
    printReport(result);
