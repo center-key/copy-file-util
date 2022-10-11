@@ -47,10 +47,10 @@ describe('Library module', () => {
 describe('Executing the CLI', () => {
 
    it('with template variables correctly inserts values from "package.json"', () => {
-      const cmd = 'node bin/cli.js --cd=spec/fixtures source/mock.txt target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.txt';
+      const cmd = 'node bin/cli.js --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html';
       execSync(cmd);
       const actual =   fs.readdirSync('spec/fixtures/target/module');
-      const expected = ['copy-file-util-v' + pkg.version + '.txt'];
+      const expected = ['copy-file-util-v' + pkg.version + '.html'];
       assertDeepStrictEqual(actual, expected);
       });
 
@@ -60,38 +60,38 @@ describe('Executing the CLI', () => {
 describe('Calling copyFile.cp()', () => {
 
    it('with a target file correctly renames a file', () => {
-      const source = 'spec/fixtures/source/mock.txt';
-      const target = 'spec/fixtures/target/to-file/mock2.txt';
+      const source = 'spec/fixtures/source/mock.html';
+      const target = 'spec/fixtures/target/to-file/mock2.html';
       copyFile.cp(source, { targetFile: target });
       const actual =   fs.readdirSync('spec/fixtures/target/to-file');
-      const expected = ['mock2.txt'];
+      const expected = ['mock2.html'];
       assertDeepStrictEqual(actual, expected);
       });
 
    it('with a target folder copies a file to the correct folder', () => {
-      const source = 'spec/fixtures/source/mock.txt';
+      const source = 'spec/fixtures/source/mock.html';
       const target = 'spec/fixtures/target/to-folder';
       copyFile.cp(source, { targetFolder: target });
       const actual =   fs.readdirSync('spec/fixtures/target/to-folder');
-      const expected = ['mock.txt'];
+      const expected = ['mock.html'];
       assertDeepStrictEqual(actual, expected);
       });
 
    it('with "cd" set copies the file to the correct folder', () => {
-      const source = 'source/mock.txt';
+      const source = 'source/mock.html';
       const target = 'target/cd';
       copyFile.cp(source, { cd: 'spec/fixtures', targetFolder: target });
       const actual =   fs.readdirSync('spec/fixtures/target/cd');
-      const expected = ['mock.txt'];
+      const expected = ['mock.html'];
       assertDeepStrictEqual(actual, expected);
       });
 
    it('with "cd" set correctly renames the file', () => {
-      const source = 'source/mock.txt';
-      const target = 'target/cd-rename/mock2.txt';
+      const source = 'source/mock.html';
+      const target = 'target/cd-rename/mock2.html';
       copyFile.cp(source, { cd: 'spec/fixtures', targetFile: target });
       const actual =   fs.readdirSync('spec/fixtures/target/cd-rename');
-      const expected = ['mock2.txt'];
+      const expected = ['mock2.html'];
       assertDeepStrictEqual(actual, expected);
       });
 
@@ -107,7 +107,7 @@ describe('Correct error is thrown', () => {
       });
 
    it('when the "target" is missing', () => {
-      const source = 'spec/fixtures/source/mock.txt';
+      const source = 'spec/fixtures/source/mock.html';
       const makeBogusCall = () => copyFile.cp(source);
       const exception =     { message: '[copy-file-util] Must specify a target file or folder.' };
       assert.throws(makeBogusCall, exception);
