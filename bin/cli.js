@@ -18,9 +18,11 @@
 //    $ npm install
 //    $ npm test
 //    $ node bin/cli.js --cd=spec/fixtures source/mock.txt --folder target/to-folder
+//    $ node bin/cli.js --cd=spec/fixtures source/mock.txt target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.txt
 
 // Imports
 import { copyFile } from '../dist/copy-file.js';
+import { dna } from 'dna-engine';
 import chalk from 'chalk';
 import fs    from 'fs';
 import log   from 'fancy-log';
@@ -39,8 +41,9 @@ const source = params[0];
 const target = params[1];
 
 // Utilities
-const getPackageVersion = () => !fs.existsSync('package.json') ? 'ERROR' :
-   JSON.parse(fs.readFileSync('package.json', 'utf-8')).version;
+const readPackage = () => JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+const getPackageField = (match) =>
+   dna.util.value({ pkg: readPackage() }, match.replace(/[{}]/g, '')) ?? 'MISSING-FIELD-ERROR';
 
 // Reporting
 const printReport = (result) => {
@@ -65,7 +68,7 @@ if (error)
 const targetKey = flagOn.folder ? 'targetFolder' : 'targetFile';
 const options = {
    cd:          flagMap.cd ?? null,
-   [targetKey]: target.replace(/{{{pkg.version}}}/, getPackageVersion),
+   [targetKey]: target.replace(/{{[^{}]*}}/g, getPackageField),
    };
 const result = copyFile.cp(source, options);
 if (!flagOn.quiet)

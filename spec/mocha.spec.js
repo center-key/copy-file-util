@@ -3,11 +3,13 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
+import { execSync } from 'node:child_process';
 import assert from 'assert';
 import fs     from 'fs';
 
 // Setup
 import { copyFile } from '../dist/copy-file.js';
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('The "dist" folder', () => {
@@ -36,6 +38,19 @@ describe('Library module', () => {
    it('has a cp() function', () => {
       const actual =   { validate: typeof copyFile.cp };
       const expected = { validate: 'function' };
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Executing the CLI', () => {
+
+   it('with template variables correctly inserts values from "package.json"', () => {
+      const cmd = 'node bin/cli.js --cd=spec/fixtures source/mock.txt target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.txt';
+      execSync(cmd);
+      const actual =   fs.readdirSync('spec/fixtures/target/module');
+      const expected = ['copy-file-util-v' + pkg.version + '.txt'];
       assertDeepStrictEqual(actual, expected);
       });
 

@@ -1,14 +1,15 @@
 # copy-file-util
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
-_Copy or rename a file (CLI tool designed for use in npm scripts)_
+_Copy or rename a file with optional package version number (CLI tool designed for use in npm scripts)_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-file-util/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/copy-file-util.svg)](https://www.npmjs.com/package/copy-file-util)
 [![Vulnerabilities](https://snyk.io/test/github/center-key/copy-file-util/badge.svg)](https://snyk.io/test/github/center-key/copy-file-util)
 [![Build](https://github.com/center-key/copy-file-util/workflows/build/badge.svg)](https://github.com/center-key/copy-file-util/actions/workflows/run-spec-on-push.yaml)
 
-**copy-file-util** takes a source file and copies it to a new destination.  The command's console output includes a timestamp and formatting helpful in build systems.
+**copy-file-util** takes a source file and copies it to a new destination.&nbsp;
+The command's console output includes a timestamp and formatting helpful in build systems.
 
 <img src=https://raw.githubusercontent.com/center-key/copy-file-util/main/screenshot.png
 width=800 alt=screenshot>
@@ -23,8 +24,9 @@ $ npm install --save-dev copy-file-util
 ### 1. npm scripts
 Run `copy-file` from the `"scripts"` section of your **package.json** file.
 
-The **first** parameter is the *source* file.
-The **second** parameter is the *target* file or folder (use the `--folder` flag).
+Parameters:
+* The **first** parameter is the *source* file.
+* The **second** parameter is the *target* file or folder (use the `--folder` flag).
 
 Example **package.json** scripts:
 ```json
@@ -33,7 +35,6 @@ Example **package.json** scripts:
       "backup-license": "copy-file src/LICENSE --folder backup",
    },
 ```
-Try out the first script with the command: `npm run pub-license`
 
 ### 2. Global
 You can install **copy-file-util** globally and then run it anywhere directly from the terminal.
@@ -56,6 +57,12 @@ Examples:
    - `copy-file app.js app.mjs --quite` &nbsp; Displays no output.
    - `copy-file app.js --folder dist` &nbsp; Copies **app.js** into the **dist** folder.
 
+### 4. Template Variables
+The *target* parameter can contain template variables, like `{{pkg.version}}` and `{{pkg.name}}`, which will be replaced with values with values from your project's **package.json** file.
+
+Example:
+   - `copy-file build/app.js dist/app-v{{pkg.version}}.js` &nbsp; Creates a copy of **app.js** named something like **app-v1.2.3.js** based on the version of your project.
+
 ## C) Application Code
 Even though **copy-file-util** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
 
@@ -73,9 +80,9 @@ See the **TypeScript Declarations** at the top of [copy-file.ts](copy-file.ts) f
 ---
 **CLI Build Tools**
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
-   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file_
-   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _Recursively copy the files in a folder_
-   - 🔍 [files-replace](https://github.com/center-key/files-replace):&nbsp; _Find and replace strings or template outputs in text files_
+   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file with optional package version number_
+   - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy files from one folder to another folder_
+   - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
    - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
 
