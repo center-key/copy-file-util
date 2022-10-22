@@ -44,19 +44,6 @@ describe('Library module', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-describe('Executing the CLI', () => {
-
-   it('with template variables correctly inserts values from "package.json"', () => {
-      const cmd = 'node bin/cli.js --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html';
-      execSync(cmd);
-      const actual =   fs.readdirSync('spec/fixtures/target/module');
-      const expected = ['copy-file-util-v' + pkg.version + '.html'];
-      assertDeepStrictEqual(actual, expected);
-      });
-
-   });
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Calling copyFile.cp()', () => {
 
    it('with a target file correctly renames a file', () => {
@@ -111,6 +98,19 @@ describe('Correct error is thrown', () => {
       const makeBogusCall = () => copyFile.cp(source);
       const exception =     { message: '[copy-file-util] Must specify a target file or folder.' };
       assert.throws(makeBogusCall, exception);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Executing the CLI', () => {
+
+   it('with template variables correctly inserts values from "package.json"', () => {
+      const cmd = 'node bin/cli.js --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html';
+      execSync(cmd);
+      const actual =   fs.readdirSync('spec/fixtures/target/module');
+      const expected = ['copy-file-util-v' + pkg.version + '.html'];
+      assertDeepStrictEqual(actual, expected);
       });
 
    });

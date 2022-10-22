@@ -54,7 +54,7 @@ Command-line flags:
 | `--quiet`  | Suppress informational messages.               | N/A        |
 
 Examples:
-   - `copy-file app.js app.mjs --quite` &nbsp; Displays no output.
+   - `copy-file app.js app.mjs --quiet` &nbsp; Displays no output.
    - `copy-file app.js --folder dist` &nbsp; Copies **app.js** into the **dist** folder.
 
 ### 4. Template Variables
@@ -84,6 +84,7 @@ See the **TypeScript Declarations** at the top of [copy-file.ts](copy-file.ts) f
    - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy files from one folder to another folder_
    - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
+   - 🚆 [run-scripts-util](https://github.com/center-key/run-scripts-util):&nbsp; _Organize npm scripts into named groups of easy to manage commands_
    - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
 
 Feel free to submit questions at:<br>

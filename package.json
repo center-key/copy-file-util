@@ -63,15 +63,19 @@
          "@typescript-eslint/no-non-null-assertion": "off"
       }
    },
+   "runScriptsConfig": {
+      "build": [
+         "rimraf build dist spec/fixtures/target **/.DS_Store",
+         "jshint . --exclude-path .gitignore",
+         "eslint --max-warnings 0 . --ext .ts",
+         "tsc",
+         "tsc --module UMD --outDir build/umd",
+         "cpy build/umd/copy-file.js build --rename=copy-file.umd.cjs --flat=true",
+         "add-dist-header build dist"
+      ]
+   },
    "scripts": {
-      "step:01": "rimraf build dist spec/fixtures/target **/.DS_Store",
-      "step:02": "jshint . --exclude-path .gitignore",
-      "step:03": "eslint --max-warnings 0 . --ext .ts",
-      "step:10": "tsc",
-      "step:11": "tsc --module UMD --outDir build/umd",
-      "step:12": "cpy build/umd/copy-file.js build --rename=copy-file.umd.cjs --flat=true",
-      "step:20": "add-dist-header build dist",
-      "pretest": "npm-run-all step:*",
+      "pretest": "run-scripts build",
       "test": "mocha spec/*.spec.js"
    },
    "dependencies": {
@@ -82,17 +86,17 @@
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
-      "@types/node": "~18.8",
+      "@types/node": "~18.11",
       "@typescript-eslint/eslint-plugin": "~5.40",
       "@typescript-eslint/parser": "~5.40",
       "add-dist-header": "~0.3",
       "assert-deep-strict-equal": "~1.0",
       "cpy-cli": "~4.2",
-      "eslint": "~8.25",
+      "eslint": "~8.26",
       "jshint": "~2.13",
-      "mocha": "~10.0",
-      "npm-run-all2": "~6.0",
+      "mocha": "~10.1",
       "rimraf": "~3.0",
+      "run-scripts-util": "~0.1",
       "typescript": "~4.8"
    }
 }
