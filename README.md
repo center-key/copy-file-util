@@ -51,6 +51,7 @@ Command-line flags:
 | ---------- | ---------------------------------------------- | ---------- |
 | `--cd`     | Change working directory before starting copy. | **string** |
 | `--folder` | Indicates the target is a folder.              | N/A        |
+| `--note`   | Place to add a comment only for humans.        | **string** |
 | `--quiet`  | Suppress informational messages.               | N/A        |
 
 Examples:

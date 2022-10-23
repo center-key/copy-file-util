@@ -28,7 +28,7 @@ import fs    from 'fs';
 import log   from 'fancy-log';
 
 // Parameters
-const validFlags =  ['cd', 'folder', 'quiet'];
+const validFlags =  ['cd', 'folder', 'note', 'quiet'];
 const args =        process.argv.slice(2);
 const flags =       args.filter(arg => /^--/.test(arg));
 const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
