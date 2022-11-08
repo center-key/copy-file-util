@@ -1,4 +1,4 @@
-//! copy-file-util v0.1.4 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v0.1.5 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
