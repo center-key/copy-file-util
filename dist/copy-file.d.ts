@@ -1,13 +1,13 @@
-//! copy-file-util v0.1.5 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v0.1.6 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
-export declare type Settings = {
+export type Settings = {
     cd: string;
     targetFile: string;
     targetFolder: string;
     fileExtension: string;
 };
-export declare type Options = Partial<Settings>;
-export declare type Result = {
+export type Options = Partial<Settings>;
+export type Result = {
     origin: string;
     dest: string;
     duration: number;
