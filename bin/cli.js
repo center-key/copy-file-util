@@ -21,24 +21,18 @@
 //    $ node bin/cli.js --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html
 
 // Imports
+import { cliArgvUtil } from 'cli-argv-util';
 import { copyFile } from '../dist/copy-file.js';
 import { dna } from 'dna-engine';
 import chalk from 'chalk';
 import fs    from 'fs';
 import log   from 'fancy-log';
 
-// Parameters
-const validFlags =  ['cd', 'folder', 'note', 'quiet'];
-const args =        process.argv.slice(2);
-const flags =       args.filter(arg => /^--/.test(arg));
-const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
-const flagOn =      Object.fromEntries(validFlags.map(flag => [flag, flag in flagMap]));
-const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
-const params =      args.filter(arg => !/^--/.test(arg));
-
-// Data
-const source = params[0];
-const target = params[1];
+// Parameters and flags
+const validFlags = ['cd', 'folder', 'note', 'quiet'];
+const cli =        cliArgvUtil.parse(validFlags);
+const source =     cli.params[0];
+const target =     cli.params[1];
 
 // Utilities
 const readPackage = () => JSON.parse(fs.readFileSync('package.json', 'utf-8'));
@@ -50,26 +44,26 @@ const printReport = (result) => {
    const name =   chalk.gray('copy-file');
    const origin = chalk.blue.bold(result.origin);
    const dest =   chalk.magenta(result.dest);
-   const arrow =  chalk.gray.bold(' ⟹  ');  //extra space for alignment
+   const arrow =  chalk.gray.bold('→');
    const info =   chalk.white(`(${result.duration}ms)`);
    log(name, origin, arrow, dest, info);
    };
 
 // Copy File
 const error =
-   invalidFlag ?              'Invalid flag: ' + invalidFlag :
-   params.length > 2 ?        'Extraneous parameter: ' + params[2] :
-   !source ?                  'Missing source file.' :
-   !target && flagOn.folder ? 'Missing target folder.' :
-   !target ?                  'Missing target file.' :
+   cli.invalidFlag ?              cli.invalidFlagMsg :
+   cli.paramCount > 2 ?           'Extraneous parameter: ' + cli.params[2] :
+   !source ?                      'Missing source file.' :
+   !target && cli.flagOn.folder ? 'Missing target folder.' :
+   !target ?                      'Missing target file.' :
    null;
 if (error)
    throw Error('[copy-file-util] ' + error);
-const targetKey = flagOn.folder ? 'targetFolder' : 'targetFile';
+const targetKey = cli.flagOn.folder ? 'targetFolder' : 'targetFile';
 const options = {
-   cd:          flagMap.cd ?? null,
+   cd:          cli.flagMap.cd ?? null,
    [targetKey]: target.replace(/{{[^{}]*}}/g, getPackageField),
    };
 const result = copyFile.cp(source, options);
-if (!flagOn.quiet)
+if (!cli.flagOn.quiet)
    printReport(result);
