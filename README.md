@@ -45,7 +45,7 @@ $ npm install --global copy-file-util
 $ copy-file src/web/api.html docs/api-manual.html
 ```
 
-### 3. CLI Flags
+### 3. CLI flags
 Command-line flags:
 | Flag       | Description                                    | Values     |
 | ---------- | ---------------------------------------------- | ---------- |
@@ -58,7 +58,7 @@ Examples:
    - `copy-file app.js app.mjs --quiet` &nbsp; Displays no output.
    - `copy-file app.js --folder dist` &nbsp; Copies **app.js** into the **dist** folder.
 
-### 4. Template Variables
+### 4. Template variables
 The *target* parameter can contain template variables, like `{{pkg.version}}` and `{{pkg.name}}`, which will be replaced with values with values from your project's **package.json** file.
 
 Example:
