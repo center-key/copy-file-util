@@ -55,8 +55,11 @@ Command-line flags:
 | `--quiet`  | Suppress informational messages.               | N/A        |
 
 Examples:
-   - `copy-file app.js app.mjs --quiet` &nbsp; Displays no output.
-   - `copy-file app.js --folder dist` &nbsp; Copies **app.js** into the **dist** folder.
+   - `copy-file app.js app.mjs --quiet`<br>
+   Displays no output.
+
+   - `copy-file app.js --folder dist`<br>
+   Copies **app.js** into the **dist** folder.
 
 ### 4. Template variables
 The *target* parameter can contain template variables, like `{{pkg.version}}` and `{{pkg.name}}`, which will be replaced with values with values from your project's **package.json** file.
