@@ -107,7 +107,7 @@ describe('Executing the CLI', () => {
 
    it('with template variables correctly inserts values from "package.json"', () => {
       const cmd = 'node bin/cli.js --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html';
-      execSync(cmd);
+      execSync(cmd, { stdio: 'inherit' });
       const actual =   fs.readdirSync('spec/fixtures/target/module');
       const expected = ['copy-file-util-v' + pkg.version + '.html'];
       assertDeepStrictEqual(actual, expected);
