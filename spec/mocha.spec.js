@@ -104,10 +104,14 @@ describe('Correct error is thrown', () => {
 
 ////////////////////////////////////////////////////////////////////////////////
 describe('Executing the CLI', () => {
+   const run = (posix) => {
+      const name =    Object.keys(pkg.bin).sort()[0];
+      const command = process.platform === 'win32' ? posix.replaceAll('\\ ', '" "') : posix;
+      execSync(command.replace(name, 'node bin/cli.js'), { stdio: 'inherit' });
+      };
 
    it('with template variables correctly inserts values from "package.json"', () => {
-      const cmd = 'node bin/cli.js --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html';
-      execSync(cmd, { stdio: 'inherit' });
+      run('copy-file --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html');
       const actual =   fs.readdirSync('spec/fixtures/target/module');
       const expected = ['copy-file-util-v' + pkg.version + '.html'];
       assertDeepStrictEqual(actual, expected);
