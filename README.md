@@ -73,6 +73,7 @@ Even though **copy-file-util** is primarily intended for build scripts, the pack
 Example:
 ``` typescript
 import { copyFile } from 'copy-file-util';
+
 const result = copyFile.cp('src/web/api.html' { targetFile: 'docs/api-manual.html' });
 console.log('Execution time:', result.duration, 'ms');
 ```
