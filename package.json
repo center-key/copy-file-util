@@ -5,15 +5,14 @@
    "license": "MIT",
    "type": "module",
    "module": "dist/copy-file.js",
-   "main": "dist/copy-file.umd.cjs",
+   "main": "dist/copy-file.js",
    "types": "dist/copy-file.d.ts",
    "files": [
       "dist"
    ],
    "exports": {
       ".": {
-         "import": "./dist/copy-file.js",
-         "require": "./dist/copy-file.umd.cjs"
+         "import": "./dist/copy-file.js"
       },
       "./": "./dist/"
    },
@@ -71,8 +70,6 @@
          "jshint . --exclude-path .gitignore",
          "eslint --max-warnings 0 . --ext .ts",
          "tsc",
-         "tsc --module UMD --outDir build/umd",
-         "cpy build/umd/copy-file.js build --rename=copy-file.umd.cjs --flat=true",
          "add-dist-header build dist"
       ]
    },
@@ -90,8 +87,8 @@
    "devDependencies": {
       "@types/fancy-log": "~2.0",
       "@types/node": "~20.3",
-      "@typescript-eslint/eslint-plugin": "~5.59",
-      "@typescript-eslint/parser": "~5.59",
+      "@typescript-eslint/eslint-plugin": "~5.60",
+      "@typescript-eslint/parser": "~5.60",
       "add-dist-header": "~1.0",
       "assert-deep-strict-equal": "~1.0",
       "cpy-cli": "~4.2",
