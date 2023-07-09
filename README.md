@@ -5,7 +5,6 @@ _Copy or rename a file with optional package version number (CLI tool designed f
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-file-util/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/copy-file-util.svg)](https://www.npmjs.com/package/copy-file-util)
-[![Vulnerabilities](https://snyk.io/test/github/center-key/copy-file-util/badge.svg)](https://snyk.io/test/github/center-key/copy-file-util)
 [![Build](https://github.com/center-key/copy-file-util/workflows/build/badge.svg)](https://github.com/center-key/copy-file-util/actions/workflows/run-spec-on-push.yaml)
 
 **copy-file-util** takes a source file and copies it to a new destination.&nbsp;
