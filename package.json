@@ -79,7 +79,7 @@
    },
    "dependencies": {
       "chalk": "~5.3",
-      "cli-argv-util": "~1.1",
+      "cli-argv-util": "~1.2",
       "dna-engine": "~3.0",
       "fancy-log": "~2.0",
       "slash": "~5.1"
@@ -87,8 +87,8 @@
    "devDependencies": {
       "@types/fancy-log": "~2.0",
       "@types/node": "~20.4",
-      "@typescript-eslint/eslint-plugin": "~5.61",
-      "@typescript-eslint/parser": "~5.61",
+      "@typescript-eslint/eslint-plugin": "~6.0",
+      "@typescript-eslint/parser": "~6.0",
       "add-dist-header": "~1.1",
       "assert-deep-strict-equal": "~1.1",
       "eslint": "~8.44",

@@ -3,7 +3,7 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
-import { execSync } from 'node:child_process';
+import { cliArgvUtil } from 'cli-argv-util';
 import assert from 'assert';
 import fs     from 'fs';
 
@@ -103,11 +103,7 @@ describe('Correct error is thrown', () => {
 
 ////////////////////////////////////////////////////////////////////////////////
 describe('Executing the CLI', () => {
-   const run = (posix) => {
-      const name =    Object.keys(pkg.bin).sort()[0];
-      const command = process.platform === 'win32' ? posix.replaceAll('\\ ', '" "') : posix;
-      return execSync(command.replace(name, 'node bin/cli.js'), { stdio: 'inherit' });
-      };
+   const run = (posix) => cliArgvUtil.run(pkg, posix);
 
    it('with template variables correctly inserts values from "package.json"', () => {
       run('copy-file --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html');
