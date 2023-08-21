@@ -112,4 +112,16 @@ describe('Executing the CLI', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
+   it('to move a file correctly deletes the source file', () => {
+      run('copy-file spec/fixtures/source/mock.html --folder spec/fixtures/target/move/a');
+      run('copy-file spec/fixtures/target/move/a/mock.html --move --folder spec/fixtures/target/move/b');
+      const actual =   cliArgvUtil.readFolder('spec/fixtures/target/move');
+      const expected = [
+         'a',
+         'b',
+         'b/mock.html',
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
    });

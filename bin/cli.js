@@ -10,7 +10,7 @@
 //    },
 //
 // Usage from command line:
-//    $ npm install --global copy-file-util
+//    $ npm install --save-dev copy-file-util
 //    $ copy-file src/LICENSE doc/license.txt
 //
 // Contributors to this project:
@@ -29,7 +29,7 @@ import fs    from 'fs';
 import log   from 'fancy-log';
 
 // Parameters and flags
-const validFlags = ['cd', 'folder', 'note', 'quiet'];
+const validFlags = ['cd', 'folder', 'move', 'note', 'quiet'];
 const cli =        cliArgvUtil.parse(validFlags);
 const source =     cli.params[0];
 const target =     cli.params[1];
@@ -45,7 +45,7 @@ const printReport = (result) => {
    const origin = chalk.blue.bold(result.origin);
    const dest =   chalk.magenta(result.dest);
    const arrow =  chalk.gray.bold('→');
-   const info =   chalk.white(`(${result.duration}ms)`);
+   const info =   chalk.white(`(${result.duration}ms${result.moved ? ', move' : ''})`);
    log(name, origin, arrow, dest, info);
    };
 
@@ -62,6 +62,7 @@ if (error)
 const targetKey = cli.flagOn.folder ? 'targetFolder' : 'targetFile';
 const options = {
    cd:          cli.flagMap.cd ?? null,
+   move:        cli.flagOn.move,
    [targetKey]: target.replace(/{{[^{}]*}}/g, getPackageField),
    };
 const result = copyFile.cp(source, options);

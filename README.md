@@ -35,14 +35,13 @@ Example **package.json** scripts:
    },
 ```
 
-### 2. Global
-You can install **copy-file-util** globally and then run it anywhere directly from the terminal.
-
+### 2. Command-line npx
 Example terminal commands:
 ```shell
-$ npm install --global copy-file-util
+$ npm install --save-dev copy-file-util
 $ copy-file src/web/api.html docs/api-manual.html
 ```
+You can also install **copy-file-util** globally (`--global`) and then run it anywhere directly from the terminal.
 
 ### 3. CLI flags
 Command-line flags:
@@ -50,6 +49,7 @@ Command-line flags:
 | ---------- | ---------------------------------------------- | ---------- |
 | `--cd`     | Change working directory before starting copy. | **string** |
 | `--folder` | Indicates the target is a folder.              | N/A        |
+| `--move`   | Delete the source file after copying it.       | N/A        |
 | `--note`   | Place to add a comment only for humans.        | **string** |
 | `--quiet`  | Suppress informational messages.               | N/A        |
 
@@ -60,11 +60,15 @@ Examples:
    - `copy-file app.js --folder dist`<br>
    Copies **app.js** into the **dist** folder.
 
+   - `copy-file app.js --move --folder dist`<br>
+   Like the `mv` Unix command.
+
 ### 4. Template variables
 The *target* parameter can contain template variables, like `{{pkg.version}}` and `{{pkg.name}}`, which will be replaced with values with values from your project's **package.json** file.
 
 Example:
-   - `copy-file build/app.js dist/app-v{{pkg.version}}.js` &nbsp; Creates a copy of **app.js** named something like **app-v1.2.3.js** based on the version of your project.
+   - `copy-file build/app.js dist/app-v{{pkg.version}}.js`<br>
+   Creates a copy of **app.js** named something like **app-v1.2.3.js** based on the version of your project.
 
 ## C) Application Code
 Even though **copy-file-util** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
@@ -86,6 +90,7 @@ See the **TypeScript Declarations** at the top of [copy-file.ts](copy-file.ts) f
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
    - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file with optional package version number_
    - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy files from one folder to another folder_
+   - 🪺 [recursive-exec](https://github.com/center-key/recursive-exec):&nbsp; _Run a command on each file in a folder and its subfolders_
    - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
    - 🚆 [run-scripts-util](https://github.com/center-key/run-scripts-util):&nbsp; _Organize npm scripts into named groups of easy to manage commands_

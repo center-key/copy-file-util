@@ -1,30 +1,34 @@
 // copy-file-util ~~ MIT License
 
+// Imports
 import fs    from 'fs';
 import path  from 'path';
 import slash from 'slash';
 
-export type Settings = {
-   cd:            string,  //change working directory before starting copy
-   targetFile:    string,  //destination path for file copy operation
-   targetFolder:  string,  //destination folder for file copy operation
-   fileExtension: string,  //new file extension for the target file
+// Types
+export type Options = {
+   cd:            string,   //change working directory before starting copy
+   targetFile:    string,   //destination path for file copy operation
+   targetFolder:  string,   //destination folder for file copy operation
+   fileExtension: string,   //new file extension for the target file
+   move:          boolean,  //delete the source file after copying it
    };
-export type Options = Partial<Settings>;
 export type Result = {
-   origin:   string,  //path of origination file
-   dest:     string,  //path of destination file
-   duration: number,  //execution time in milliseconds
+   origin:   string,   //path of origination file
+   dest:     string,   //path of destination file
+   duration: number,   //execution time in milliseconds
+   moved:    boolean,  //original file was deleted
    };
 
 const copyFile = {
 
-   cp(sourceFile: string, options: Options): Result {
+   cp(sourceFile: string, options: Partial<Options>): Result {
       const defaults = {
          cd:            null,
          targetFile:    null,
          targetFolder:  null,
          fileExtension: null,
+         move:          false,
          };
       const settings = { ...defaults, ...options };
       const startTime = Date.now();
@@ -55,10 +59,14 @@ const copyFile = {
          null;
       if (errorMessage)
          throw Error('[copy-file-util] ' + errorMessage);
-      fs.copyFileSync(source, target);
+      if (settings.move)
+         fs.renameSync(source, target);
+      else
+         fs.copyFileSync(source, target);
       return {
          origin:   source,
          dest:     target,
+         moved:    settings.move,
          duration: Date.now() - startTime,
          };
       },
