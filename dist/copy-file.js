@@ -1,18 +1,18 @@
-//! copy-file-util v1.1.0 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.1.1 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 import fs from 'fs';
 import path from 'path';
 import slash from 'slash';
 const copyFile = {
     cp(sourceFile, options) {
-        var _a;
         const defaults = {
             cd: null,
             targetFile: null,
             targetFolder: null,
             fileExtension: null,
+            move: false,
         };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const startTime = Date.now();
         const missingTarget = !settings.targetFile && !settings.targetFolder;
         const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
@@ -24,7 +24,7 @@ const copyFile = {
         const sourceFilename = sourceIsFile ? path.basename(source) : null;
         const targetPath = settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
         const targetFolder = targetPath ? normalize(startFolder + targetPath) : null;
-        const targetFile = (_a = settings.targetFile) !== null && _a !== void 0 ? _a : settings.targetFolder + '/' + sourceFilename;
+        const targetFile = settings.targetFile ?? settings.targetFolder + '/' + sourceFilename;
         const target = normalize(startFolder + targetFile);
         if (targetFolder)
             fs.mkdirSync(targetFolder, { recursive: true });
@@ -39,10 +39,14 @@ const copyFile = {
                                     null;
         if (errorMessage)
             throw Error('[copy-file-util] ' + errorMessage);
-        fs.copyFileSync(source, target);
+        if (settings.move)
+            fs.renameSync(source, target);
+        else
+            fs.copyFileSync(source, target);
         return {
             origin: source,
             dest: target,
+            moved: settings.move,
             duration: Date.now() - startTime,
         };
     },

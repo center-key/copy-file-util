@@ -1,6 +1,6 @@
 {
    "name": "copy-file-util",
-   "version": "1.1.0",
+   "version": "1.1.1",
    "description": "Copy or rename a file with optional package version number (CLI tool designed for use in npm scripts)",
    "license": "MIT",
    "type": "module",
