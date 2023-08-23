@@ -6,7 +6,7 @@ import path  from 'path';
 import slash from 'slash';
 
 // Types
-export type Options = {
+export type Settings = {
    cd:            string,   //change working directory before starting copy
    targetFile:    string,   //destination path for file copy operation
    targetFolder:  string,   //destination folder for file copy operation
@@ -22,7 +22,7 @@ export type Result = {
 
 const copyFile = {
 
-   cp(sourceFile: string, options: Partial<Options>): Result {
+   cp(sourceFile: string, options?: Partial<Settings>): Result {
       const defaults = {
          cd:            null,
          targetFile:    null,
