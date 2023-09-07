@@ -71,7 +71,7 @@ Example:
    Creates a copy of **app.js** named something like **app-v1.2.3.js** based on the version of your project.
 
 ## C) Application Code
-Even though **copy-file-util** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
+Even though **copy-file-util** is primarily intended for build scripts, the package can be used programmatically in ESM and TypeScript projects.
 
 Example:
 ``` typescript

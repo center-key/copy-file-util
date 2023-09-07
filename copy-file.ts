@@ -1,7 +1,9 @@
 // copy-file-util ~~ MIT License
 
 // Imports
+import chalk from 'chalk';
 import fs    from 'fs';
+import log   from 'fancy-log';
 import path  from 'path';
 import slash from 'slash';
 
@@ -69,6 +71,16 @@ const copyFile = {
          moved:    settings.move,
          duration: Date.now() - startTime,
          };
+      },
+
+   reporter(result: Result): Result {
+      const name =   chalk.gray('copy-file');
+      const origin = chalk.blue.bold(result.origin);
+      const dest =   chalk.magenta(result.dest);
+      const arrow =  chalk.gray.bold('→');
+      const info =   chalk.white(`(${result.duration}ms${result.moved ? ', move' : ''})`);
+      log(name, origin, arrow, dest, info);
+      return result;
       },
 
    };

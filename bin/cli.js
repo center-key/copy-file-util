@@ -24,9 +24,7 @@
 import { cliArgvUtil } from 'cli-argv-util';
 import { copyFile } from '../dist/copy-file.js';
 import { dna } from 'dna-engine';
-import chalk from 'chalk';
-import fs    from 'fs';
-import log   from 'fancy-log';
+import fs from 'fs';
 
 // Parameters and flags
 const validFlags = ['cd', 'folder', 'move', 'note', 'quiet'];
@@ -38,16 +36,6 @@ const target =     cli.params[1];
 const readPackage = () => JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 const getPackageField = (match) =>
    dna.util.value({ pkg: readPackage() }, match.replace(/[{}]/g, '')) ?? 'MISSING-FIELD-ERROR';
-
-// Reporting
-const printReport = (result) => {
-   const name =   chalk.gray('copy-file');
-   const origin = chalk.blue.bold(result.origin);
-   const dest =   chalk.magenta(result.dest);
-   const arrow =  chalk.gray.bold('→');
-   const info =   chalk.white(`(${result.duration}ms${result.moved ? ', move' : ''})`);
-   log(name, origin, arrow, dest, info);
-   };
 
 // Copy File
 const error =
@@ -67,4 +55,4 @@ const options = {
    };
 const result = copyFile.cp(source, options);
 if (!cli.flagOn.quiet)
-   printReport(result);
+   copyFile.reporter(result);

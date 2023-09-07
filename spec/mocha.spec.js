@@ -34,9 +34,13 @@ describe('Library module', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
-   it('has a cp() function', () => {
-      const actual =   { validate: typeof copyFile.cp };
-      const expected = { validate: 'function' };
+   it('has functions named cp() and reporter()', () => {
+      const module = copyFile;
+      const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
+      const expected = [
+         ['cp',       'function'],
+         ['reporter', 'function'],
+         ];
       assertDeepStrictEqual(actual, expected);
       });
 
