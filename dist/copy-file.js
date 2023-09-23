@@ -1,6 +1,8 @@
-//! copy-file-util v1.1.1 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.1.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
+import chalk from 'chalk';
 import fs from 'fs';
+import log from 'fancy-log';
 import path from 'path';
 import slash from 'slash';
 const copyFile = {
@@ -49,6 +51,15 @@ const copyFile = {
             moved: settings.move,
             duration: Date.now() - startTime,
         };
+    },
+    reporter(result) {
+        const name = chalk.gray('copy-file');
+        const origin = chalk.blue.bold(result.origin);
+        const dest = chalk.magenta(result.dest);
+        const arrow = chalk.gray.bold('→');
+        const info = chalk.white(`(${result.duration}ms${result.moved ? ', move' : ''})`);
+        log(name, origin, arrow, dest, info);
+        return result;
     },
 };
 export { copyFile };

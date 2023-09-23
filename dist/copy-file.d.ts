@@ -1,6 +1,6 @@
-//! copy-file-util v1.1.1 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.1.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
-export type Options = {
+export type Settings = {
     cd: string;
     targetFile: string;
     targetFolder: string;
@@ -14,6 +14,7 @@ export type Result = {
     moved: boolean;
 };
 declare const copyFile: {
-    cp(sourceFile: string, options: Partial<Options>): Result;
+    cp(sourceFile: string, options?: Partial<Settings>): Result;
+    reporter(result: Result): Result;
 };
 export { copyFile };
