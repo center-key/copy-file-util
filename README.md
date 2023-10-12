@@ -60,8 +60,13 @@ Examples:
    - `copy-file app.js --folder dist`<br>
    Copies **app.js** into the **dist** folder.
 
+   - `copy-file 'src/Legal Notice.md' --folder dist`<br>
+   Copies a file that has a space in its filename.
+
    - `copy-file app.js --move --folder dist`<br>
    Like the `mv` Unix command.
+
+_**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
 ### 4. Template variables
 The *target* parameter can contain template variables, like `{{pkg.version}}` and `{{pkg.name}}`, which will be replaced with values with values from your project's **package.json** file.
