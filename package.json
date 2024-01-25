@@ -1,21 +1,15 @@
 {
    "name": "copy-file-util",
    "version": "1.1.3",
-   "description": "Copy or rename a file with optional package version number (CLI tool designed for use in npm scripts)",
+   "description": "Copy or rename a file with optional package version number (CLI tool designed for use in npm package.json scripts)",
    "license": "MIT",
    "type": "module",
    "module": "dist/copy-file.js",
-   "main": "dist/copy-file.js",
    "types": "dist/copy-file.d.ts",
+   "exports": "./dist/copy-file.js",
    "files": [
       "dist"
    ],
-   "exports": {
-      ".": {
-         "import": "./dist/copy-file.js"
-      },
-      "./": "./dist/"
-   },
    "bin": {
       "copy-file": "bin/cli.js",
       "copy-file-util": "bin/cli.js"
@@ -91,9 +85,9 @@
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
-      "@types/node": "~20.10",
-      "@typescript-eslint/eslint-plugin": "~6.17",
-      "@typescript-eslint/parser": "~6.17",
+      "@types/node": "~20.11",
+      "@typescript-eslint/eslint-plugin": "~6.19",
+      "@typescript-eslint/parser": "~6.19",
       "add-dist-header": "~1.3",
       "assert-deep-strict-equal": "~1.1",
       "eslint": "~8.56",
