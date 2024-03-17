@@ -1,4 +1,4 @@
-//! copy-file-util v1.1.3 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.2.0 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 import chalk from 'chalk';
 import fs from 'fs';
@@ -13,6 +13,7 @@ const copyFile = {
             targetFolder: null,
             fileExtension: null,
             move: false,
+            overwrite: true,
         };
         const settings = { ...defaults, ...options };
         const startTime = Date.now();
@@ -28,6 +29,8 @@ const copyFile = {
         const targetFolder = targetPath ? normalize(startFolder + targetPath) : null;
         const targetFile = settings.targetFile ?? settings.targetFolder + '/' + sourceFilename;
         const target = normalize(startFolder + targetFile);
+        const targetExists = !missingTarget && fs.existsSync(target);
+        const skip = targetExists && !settings.overwrite;
         if (targetFolder)
             fs.mkdirSync(targetFolder, { recursive: true });
         const badTargetFolder = !targetFolder || !fs.existsSync(targetFolder);
@@ -41,14 +44,15 @@ const copyFile = {
                                     null;
         if (errorMessage)
             throw Error('[copy-file-util] ' + errorMessage);
-        if (settings.move)
+        if (!skip && settings.move)
             fs.renameSync(source, target);
-        else
+        else if (!skip)
             fs.copyFileSync(source, target);
         return {
             origin: source,
             dest: target,
             moved: settings.move,
+            skipped: skip,
             duration: Date.now() - startTime,
         };
     },
@@ -57,7 +61,8 @@ const copyFile = {
         const origin = chalk.blue.bold(result.origin);
         const dest = chalk.magenta(result.dest);
         const arrow = chalk.gray.bold('→');
-        const info = chalk.white(`(${result.duration}ms${result.moved ? ', move' : ''})`);
+        const status = result.skipped ? ', skip -- target exists' : result.moved ? ', move' : '';
+        const info = chalk.white(`(${result.duration}ms${status})`);
         log(name, origin, arrow, dest, info);
         return result;
     },

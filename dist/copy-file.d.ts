@@ -1,4 +1,4 @@
-//! copy-file-util v1.1.3 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.2.0 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 export type Settings = {
     cd: string;
@@ -6,12 +6,14 @@ export type Settings = {
     targetFolder: string;
     fileExtension: string;
     move: boolean;
+    overwrite: boolean;
 };
 export type Result = {
     origin: string;
     dest: string;
     duration: number;
     moved: boolean;
+    skipped: boolean;
 };
 declare const copyFile: {
     cp(sourceFile: string, options?: Partial<Settings>): Result;
