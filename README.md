@@ -45,13 +45,14 @@ You can also install **copy-file-util** globally (`--global`) and then run it an
 
 ### 3. CLI flags
 Command-line flags:
-| Flag       | Description                                    | Values     |
-| ---------- | ---------------------------------------------- | ---------- |
-| `--cd`     | Change working directory before starting copy. | **string** |
-| `--folder` | Indicates the target is a folder.              | N/A        |
-| `--move`   | Delete the source file after copying it.       | N/A        |
-| `--note`   | Place to add a comment only for humans.        | **string** |
-| `--quiet`  | Suppress informational messages.               | N/A        |
+| Flag             | Description                                    | Values     |
+| ---------------- | ---------------------------------------------- | ---------- |
+| `--cd`           | Change working directory before starting copy. | **string** |
+| `--folder`       | Indicates the target is a folder.              | N/A        |
+| `--move`         | Delete the source file after copying it.       | N/A        |
+| `--note`         | Place to add a comment only for humans.        | **string** |
+| `--quiet`        | Suppress informational messages.               | N/A        |
+| `--no-overwrite` | Abort if target file already exists.           | N/A        |
 
 Examples:
    - `copy-file app.js app.mjs --quiet`<br>
@@ -65,6 +66,9 @@ Examples:
 
    - `copy-file app.js --move --folder dist`<br>
    Like the `mv` Unix command.
+
+   - `copy-file default-config.json settings/config.json --no-overwrite`<br>
+   Performs a safe copy that aborts if the **settings/config.json** file already exists.
 
 _**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 

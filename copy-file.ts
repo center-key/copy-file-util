@@ -14,12 +14,14 @@ export type Settings = {
    targetFolder:  string,   //destination folder for file copy operation
    fileExtension: string,   //new file extension for the target file
    move:          boolean,  //delete the source file after copying it
+   overwrite:     boolean,  //clobber target file if it exists
    };
 export type Result = {
    origin:   string,   //path of origination file
    dest:     string,   //path of destination file
    duration: number,   //execution time in milliseconds
    moved:    boolean,  //original file was deleted
+   skipped:  boolean,  //target file exists and was not overwritten
    };
 
 const copyFile = {
@@ -31,9 +33,10 @@ const copyFile = {
          targetFolder:  null,
          fileExtension: null,
          move:          false,
+         overwrite:     true,
          };
-      const settings = { ...defaults, ...options };
-      const startTime = Date.now();
+      const settings =        { ...defaults, ...options };
+      const startTime =       Date.now();
       const missingTarget =   !settings.targetFile && !settings.targetFolder;
       const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
       const normalize = (folder: string | null) =>
@@ -47,6 +50,8 @@ const copyFile = {
       const targetFolder =   targetPath ? normalize(startFolder + targetPath) : null;
       const targetFile =     settings.targetFile ?? settings.targetFolder + '/' + sourceFilename;
       const target =         normalize(startFolder + targetFile);
+      const targetExists =   !missingTarget && fs.existsSync(target);
+      const skip =           targetExists && !settings.overwrite;
       if (targetFolder)
          fs.mkdirSync(targetFolder, { recursive: true });
       const badTargetFolder = !targetFolder || !fs.existsSync(targetFolder);
@@ -61,24 +66,28 @@ const copyFile = {
          null;
       if (errorMessage)
          throw Error('[copy-file-util] ' + errorMessage);
-      if (settings.move)
+      if (!skip && settings.move)
          fs.renameSync(source, target);
-      else
+      else if (!skip)
          fs.copyFileSync(source, target);
       return {
          origin:   source,
          dest:     target,
          moved:    settings.move,
+         skipped:  skip,
          duration: Date.now() - startTime,
          };
       },
 
    reporter(result: Result): Result {
+      // Example output:
+      //    [10:52:42] copy-file build/app.js → dist/app.js (1ms, moved)
       const name =   chalk.gray('copy-file');
       const origin = chalk.blue.bold(result.origin);
       const dest =   chalk.magenta(result.dest);
       const arrow =  chalk.gray.bold('→');
-      const info =   chalk.white(`(${result.duration}ms${result.moved ? ', move' : ''})`);
+      const status = result.skipped ? ', skip -- target exists' : result.moved ? ', move' : '';
+      const info =   chalk.white(`(${result.duration}ms${status})`);
       log(name, origin, arrow, dest, info);
       return result;
       },

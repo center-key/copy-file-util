@@ -128,4 +128,16 @@ describe('Executing the CLI', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
+   it('with the --no-overwrite flag prevents the target file from being clobbered', () => {
+      run('copy-file spec/fixtures/source/mock.html spec/fixtures/target/skip/mock1.html --no-overwrite --quiet');
+      run('copy-file spec/fixtures/source/mock.html spec/fixtures/target/skip/mock2.html --no-overwrite --quiet');
+      run('copy-file spec/fixtures/target/skip/mock1.html spec/fixtures/target/skip/mock2.html --move --no-overwrite');
+      const actual =   cliArgvUtil.readFolder('spec/fixtures/target/skip');
+      const expected = [
+         'mock1.html',
+         'mock2.html',
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
    });
