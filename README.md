@@ -5,7 +5,7 @@ _Copy or rename a file with optional package version number (CLI tool designed f
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-file-util/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/copy-file-util.svg)](https://www.npmjs.com/package/copy-file-util)
-[![Build](https://github.com/center-key/copy-file-util/workflows/build/badge.svg)](https://github.com/center-key/copy-file-util/actions/workflows/run-spec-on-push.yaml)
+[![Build](https://github.com/center-key/copy-file-util/actions/workflows/run-spec-on-push.yaml/badge.svg)](https://github.com/center-key/copy-file-util/actions/workflows/run-spec-on-push.yaml)
 
 **copy-file-util** takes a source file and copies it to a new destination.&nbsp;
 The command's console output includes a timestamp and formatting helpful in build systems.
@@ -73,10 +73,10 @@ Examples:
 _**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
 ### 4. Template variables
-The *target* parameter can contain template variables, like `{{pkg.version}}` and `{{pkg.name}}`, which will be replaced with values with values from your project's **package.json** file.
+The *target* parameter can contain template variables, like `{{package.version}}` and `{{package.name}}`, which will be replaced with values with values from your project's **package.json** file.
 
 Example:
-   - `copy-file build/app.js dist/app-v{{pkg.version}}.js`<br>
+   - `copy-file build/app.js dist/app-v{{package.version}}.js`<br>
    Creates a copy of **app.js** named something like **app-v1.2.3.js** based on the version of your project.
 
 ## C) Application Code

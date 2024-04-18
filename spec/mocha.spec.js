@@ -110,7 +110,7 @@ describe('Executing the CLI', () => {
    const run = (posix) => cliArgvUtil.run(pkg, posix);
 
    it('with template variables correctly inserts values from "package.json"', () => {
-      run('copy-file --cd=spec/fixtures source/mock.html target/{{pkg.type}}/{{pkg.name}}-v{{pkg.version}}.html');
+      run('copy-file --cd=spec/fixtures source/mock.html target/{{package.type}}/{{package.name}}-v{{package.version}}.html');
       const actual =   fs.readdirSync('spec/fixtures/target/module');
       const expected = ['copy-file-util-v' + pkg.version + '.html'];
       assertDeepStrictEqual(actual, expected);
