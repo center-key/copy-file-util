@@ -30,8 +30,7 @@ import fs from 'fs';
 const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'quiet'];
 const cli =        cliArgvUtil.parse(validFlags);
 const source =     cli.params[0];
-//const target =     cli.params[1];
-const target =     cli.params[1].replaceAll('{{pkg.', '{{package.');  //name "pkg" deprecated in favor of "package" for clarity
+const target =     cli.params[1];
 
 // Utilities
 const readPackage = () => JSON.parse(fs.readFileSync('package.json', 'utf-8'));
