@@ -46,7 +46,7 @@ const error =
    !target ?                      'Missing target file.' :
    null;
 if (error)
-   throw Error('[copy-file-util] ' + error);
+   throw new Error('[copy-file-util] ' + error);
 const targetKey = cli.flagOn.folder ? 'targetFolder' : 'targetFile';
 const templateVariables = /{{[^{}]*}}/g;  //example match: "{{package.version}}"
 const options = {

@@ -48,7 +48,7 @@ const copyFile = {
       const sourceFilename = sourceIsFile ? path.basename(source) : null;
       const targetPath =     settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
       const targetFolder =   targetPath ? normalize(startFolder + targetPath) : null;
-      const targetFile =     settings.targetFile ?? settings.targetFolder + '/' + sourceFilename;
+      const targetFile =     settings.targetFile ?? `${settings.targetFolder}/${sourceFilename}`;
       const target =         normalize(startFolder + targetFile);
       const targetExists =   !missingTarget && fs.existsSync(target);
       const skip =           targetExists && !settings.overwrite;
@@ -62,10 +62,10 @@ const copyFile = {
          !sourceIsFile ?          'Source is not a file: ' + source :
          missingTarget ?          'Must specify a target file or folder.' :
          ambiguousTarget ?        'Target cannot be both a file and a folder.' :
-         badTargetFolder ?        'Target folder cannot be written to: ' + targetFolder :
+         badTargetFolder ?        'Target folder cannot be written to: ' + String(targetFolder) :
          null;
       if (errorMessage)
-         throw Error('[copy-file-util] ' + errorMessage);
+         throw new Error('[copy-file-util] ' + errorMessage);
       if (!skip && settings.move)
          fs.renameSync(source, target);
       else if (!skip)
