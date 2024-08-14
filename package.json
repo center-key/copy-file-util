@@ -1,6 +1,6 @@
 {
    "name": "copy-file-util",
-   "version": "1.2.1",
+   "version": "1.2.2",
    "description": "Copy or rename a file with optional package version number (CLI tool designed for use in npm package.json scripts)",
    "license": "MIT",
    "type": "module",
@@ -67,7 +67,7 @@
    "devDependencies": {
       "@eslint/js": "~9.9",
       "@types/fancy-log": "~2.0",
-      "@types/node": "~22.2",
+      "@types/node": "~22.3",
       "add-dist-header": "~1.4",
       "assert-deep-strict-equal": "~1.2",
       "eslint": "~9.9",

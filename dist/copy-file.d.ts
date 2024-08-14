@@ -1,4 +1,4 @@
-//! copy-file-util v1.2.1 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.2.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 export type Settings = {
     cd: string;
