@@ -90,7 +90,7 @@ const result = copyFile.cp('src/web/api.html' { targetFile: 'docs/api-manual.htm
 console.log('Execution time:', result.duration, 'ms');
 ```
 
-See the **TypeScript Declarations** at the top of [copy-file.ts](copy-file.ts) for documentation.
+See the **TypeScript Declarations** at the top of [copy-file.ts](src/copy-file.ts) for documentation.
 
 <br>
 
