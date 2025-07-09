@@ -52,7 +52,7 @@ Command-line flags:
 | `--move`         | Delete the source file after copying it.         | N/A        |
 | `--no-overwrite` | Abort if target file already exists.             | N/A        |
 | `--note`         | Place to add a comment only for humans.          | **string** |
-| `--platform-eol` | Saves target file with OS dependent line endings | N/A        |
+| `--platform-eol` | Save target file with OS dependent line endings. | N/A        |
 | `--quiet`        | Suppress informational messages.                 | N/A        |
 
 Examples:
@@ -66,8 +66,8 @@ Examples:
    Copies a file that has a space in its filename.
 
    - `copy-file node_modules/ui-xlib/colors.less --platform-eol --folder src/css`<br>
-   Copies the `colors.less` file into your project and converts the file's EOL characters to `\n`
-   for LF on Unix and `\r\n` for CRLF on Windows.
+   Copies `colors.less` into your project and converts the file's EOL characters to `\n` for LF
+   on Unix and `\r\n` for CRLF on Windows.
 
    - `copy-file app.js --move --folder dist`<br>
    Like the `mv` Unix command.

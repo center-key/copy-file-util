@@ -16,7 +16,7 @@ export type Settings = {
    fileExtension: string,   //new file extension for the target file
    move:          boolean,  //delete the source file after copying it
    overwrite:     boolean,  //clobber target file if it exists
-   platformEol:   boolean,  //saves target file with OS dependent line endings (\n for LF on Unix and \r\n for CRLF on Windows)
+   platformEol:   boolean,  //save target file with OS dependent line endings (\n on Unix and \r\n on Windows)
    };
 export type Result = {
    origin:   string,   //path of origination file

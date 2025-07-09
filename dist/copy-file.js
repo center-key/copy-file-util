@@ -1,5 +1,6 @@
-//! copy-file-util v1.2.3 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.3.0 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
+import { EOL } from 'node:os';
 import chalk from 'chalk';
 import fs from 'fs';
 import log from 'fancy-log';
@@ -14,6 +15,7 @@ const copyFile = {
             fileExtension: null,
             move: false,
             overwrite: true,
+            platformEol: false,
         };
         const settings = { ...defaults, ...options };
         const startTime = Date.now();
@@ -44,10 +46,17 @@ const copyFile = {
                                     null;
         if (errorMessage)
             throw new Error('[copy-file-util] ' + errorMessage);
-        if (!skip && settings.move)
-            fs.renameSync(source, target);
-        else if (!skip)
-            fs.copyFileSync(source, target);
+        const createTarget = () => {
+            if (settings.move)
+                fs.renameSync(source, target);
+            else
+                fs.copyFileSync(source, target);
+            const osEol = (text) => text.replace(/\r?\n/g, EOL);
+            if (settings.platformEol)
+                fs.writeFileSync(target, osEol(fs.readFileSync(target, 'utf-8')));
+        };
+        if (!skip)
+            createTarget();
         return {
             origin: source,
             dest: target,
