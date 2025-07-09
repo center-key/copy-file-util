@@ -65,7 +65,7 @@ Examples:
    - `copy-file 'src/Legal Notice.md' --folder dist`<br>
    Copies a file that has a space in its filename.
 
-   - `copy-file node_modules/ui-xlib/colors.less --platform-eol --folder src/css`<br>
+   - `copy-file node_modules/ui-xlib/colors.less --folder src/css --platform-eol`<br>
    Copies `colors.less` into your project and converts the file's EOL characters to `\n` for LF
    on Unix and `\r\n` for CRLF on Windows.
 

@@ -53,6 +53,7 @@ const options = {
    cd:          cli.flagMap.cd ?? null,
    move:        cli.flagOn.move,
    overwrite:   !cli.flagOn.noOverwrite,
+   platformEol: cli.flagOn.platformEol,
    [targetKey]: target.replace(templateVariables, getPackageField),
    };
 const result = copyFile.cp(source, options);
