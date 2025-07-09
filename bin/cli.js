@@ -27,7 +27,7 @@ import { dna } from 'dna-engine';
 import fs from 'fs';
 
 // Parameters and flags
-const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'quiet'];
+const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol', 'quiet'];
 const cli =        cliArgvUtil.parse(validFlags);
 const source =     cli.params[0];
 const target =     cli.params[1];

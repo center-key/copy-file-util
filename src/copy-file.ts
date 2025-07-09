@@ -1,6 +1,7 @@
 // copy-file-util ~~ MIT License
 
 // Imports
+import { EOL } from 'node:os';
 import chalk from 'chalk';
 import fs    from 'fs';
 import log   from 'fancy-log';
@@ -15,6 +16,7 @@ export type Settings = {
    fileExtension: string,   //new file extension for the target file
    move:          boolean,  //delete the source file after copying it
    overwrite:     boolean,  //clobber target file if it exists
+   platformEol:   boolean,  //saves target file with OS dependent line endings (\n for LF on Unix and \r\n for CRLF on Windows)
    };
 export type Result = {
    origin:   string,   //path of origination file
@@ -34,6 +36,7 @@ const copyFile = {
          fileExtension: null,
          move:          false,
          overwrite:     true,
+         platformEol:   false,
          };
       const settings =        { ...defaults, ...options };
       const startTime =       Date.now();
@@ -66,10 +69,17 @@ const copyFile = {
          null;
       if (errorMessage)
          throw new Error('[copy-file-util] ' + errorMessage);
-      if (!skip && settings.move)
-         fs.renameSync(source, target);
-      else if (!skip)
-         fs.copyFileSync(source, target);
+      const createTarget = () => {
+         if (settings.move)
+            fs.renameSync(source, target);
+         else
+            fs.copyFileSync(source, target);
+         const osEol = (text: string) => text.replace(/\r?\n/g, EOL);
+         if (settings.platformEol)
+            fs.writeFileSync(target, osEol(fs.readFileSync(target, 'utf-8')));
+         };
+      if (!skip)
+         createTarget();
       return {
          origin:   source,
          dest:     target,

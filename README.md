@@ -45,14 +45,15 @@ You can also install **copy-file-util** globally (`--global`) and then run it an
 
 ### 3. CLI flags
 Command-line flags:
-| Flag             | Description                                    | Values     |
-| ---------------- | ---------------------------------------------- | ---------- |
-| `--cd`           | Change working directory before starting copy. | **string** |
-| `--folder`       | Indicates the target is a folder.              | N/A        |
-| `--move`         | Delete the source file after copying it.       | N/A        |
-| `--note`         | Place to add a comment only for humans.        | **string** |
-| `--quiet`        | Suppress informational messages.               | N/A        |
-| `--no-overwrite` | Abort if target file already exists.           | N/A        |
+| Flag             | Description                                      | Values     |
+| ---------------- | ------------------------------------------------ | ---------- |
+| `--cd`           | Change working directory before starting copy.   | **string** |
+| `--folder`       | Indicates the target is a folder.                | N/A        |
+| `--move`         | Delete the source file after copying it.         | N/A        |
+| `--no-overwrite` | Abort if target file already exists.             | N/A        |
+| `--note`         | Place to add a comment only for humans.          | **string** |
+| `--platform-eol` | Saves target file with OS dependent line endings | N/A        |
+| `--quiet`        | Suppress informational messages.                 | N/A        |
 
 Examples:
    - `copy-file app.js app.mjs --quiet`<br>
@@ -63,6 +64,10 @@ Examples:
 
    - `copy-file 'src/Legal Notice.md' --folder dist`<br>
    Copies a file that has a space in its filename.
+
+   - `copy-file node_modules/ui-xlib/colors.less --platform-eol --folder src/css`<br>
+   Copies the `colors.less` file into your project and converts the file's EOL characters to `\n`
+   for LF on Unix and `\r\n` for CRLF on Windows.
 
    - `copy-file app.js --move --folder dist`<br>
    Like the `mv` Unix command.
