@@ -92,7 +92,7 @@ Example:
 import { copyFile } from 'copy-file-util';
 
 const result = copyFile.cp('src/web/api.html' { targetFile: 'docs/api-manual.html' });
-console.log('Execution time:', result.duration, 'ms');
+console.info('Execution time:', result.duration, 'ms');
 ```
 
 See the **TypeScript Declarations** at the top of [copy-file.ts](src/copy-file.ts) for documentation.

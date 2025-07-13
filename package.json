@@ -65,12 +65,12 @@
       "slash": "~5.1"
    },
    "devDependencies": {
-      "@eslint/js": "~9.30",
+      "@eslint/js": "~9.31",
       "@types/fancy-log": "~2.0",
       "@types/node": "~24.0",
-      "add-dist-header": "~1.4",
+      "add-dist-header": "~1.5",
       "assert-deep-strict-equal": "~1.2",
-      "eslint": "~9.30",
+      "eslint": "~9.31",
       "jshint": "~2.13",
       "mocha": "~11.7",
       "rimraf": "~6.0",
