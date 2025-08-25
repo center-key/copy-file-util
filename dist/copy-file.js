@@ -51,9 +51,9 @@ const copyFile = {
                 fs.renameSync(source, target);
             else
                 fs.copyFileSync(source, target);
-            const osEol = (text) => text.replace(/\r?\n/g, EOL);
+            const platformEol = (text) => text.replace(/\r?\n/g, EOL);
             if (settings.platformEol)
-                fs.writeFileSync(target, osEol(fs.readFileSync(target, 'utf-8')));
+                fs.writeFileSync(target, platformEol(fs.readFileSync(target, 'utf-8')));
         };
         if (!skip)
             createTarget();
