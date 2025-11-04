@@ -42,17 +42,17 @@ const copyFile = {
       const startTime =       Date.now();
       const missingTarget =   !settings.targetFile && !settings.targetFolder;
       const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
-      const normalize = (folder: string | null) =>
+      const cleanPath = (folder: string | null) =>
          !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-      const startFolder =    settings.cd ? normalize(settings.cd) + '/' : '';
-      const source =         sourceFile ? normalize(startFolder + sourceFile) : '';
+      const startFolder =    settings.cd ? cleanPath(settings.cd) + '/' : '';
+      const source =         sourceFile ? cleanPath(startFolder + sourceFile) : '';
       const sourceExists =   source && fs.existsSync(source);
       const sourceIsFile =   sourceExists && fs.statSync(source).isFile();
       const sourceFilename = sourceIsFile ? path.basename(source) : null;
       const targetPath =     settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
-      const targetFolder =   targetPath ? normalize(startFolder + targetPath) : null;
+      const targetFolder =   targetPath ? cleanPath(startFolder + targetPath) : null;
       const targetFile =     settings.targetFile ?? `${settings.targetFolder}/${sourceFilename}`;
-      const target =         normalize(startFolder + targetFile);
+      const target =         cleanPath(startFolder + targetFile);
       const targetExists =   !missingTarget && fs.existsSync(target);
       const skip =           targetExists && !settings.overwrite;
       if (targetFolder)

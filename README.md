@@ -55,7 +55,7 @@ Command-line flags:
 | `--platform-eol` | Save target file with OS dependent line endings. | N/A        |
 | `--quiet`        | Suppress informational messages.                 | N/A        |
 
-Examples:
+### 4. Examples
    - `copy-file app.js app.mjs --quiet`<br>
    Displays no output.
 
@@ -77,7 +77,7 @@ Examples:
 
 _**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
-### 4. Template variables
+### 5. Template variables
 The *target* parameter can contain template variables, like `{{package.version}}` and `{{package.name}}`, which will be replaced with values with values from your project's **package.json** file.
 
 Example:
