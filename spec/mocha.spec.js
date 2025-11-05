@@ -38,6 +38,7 @@ describe('Library module', () => {
       const module = copyFile;
       const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
       const expected = [
+         ['assert',   'function'],
          ['cli',      'function'],
          ['cp',       'function'],
          ['reporter', 'function'],
@@ -98,7 +99,7 @@ describe('Correct error is thrown', () => {
       });
 
    it('when the "target" is missing', () => {
-      const source = 'spec/fixtures/mock.html';
+      const source =        'spec/fixtures/mock.html';
       const makeBogusCall = () => copyFile.cp(source);
       const exception =     { message: '[copy-file-util] Must specify a target file or folder.' };
       assert.throws(makeBogusCall, exception);

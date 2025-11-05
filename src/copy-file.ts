@@ -30,6 +30,11 @@ export type Result = {
 
 const copyFile = {
 
+   assert(condition: unknown, errorMessage: unknown) {
+      if (!condition)
+         throw new Error('[copy-file-util] ' + String(errorMessage));
+      },
+
    cli() {
       const validFlags =
          ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol', 'quiet'];
@@ -42,15 +47,14 @@ const copyFile = {
          const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
          return <string | undefined>value ?? 'MISSING-FIELD-ERROR';
          };
-      const error =
+      const errorMessage =
          cli.invalidFlag ?              cli.invalidFlagMsg! :
          cli.paramCount > 2 ?           'Extraneous parameter: ' + cli.params[2]! :
          !source ?                      'Missing source file.' :
          !target && cli.flagOn.folder ? 'Missing target folder.' :
          !target ?                      'Missing target file.' :
          null;
-      if (error)
-         throw new Error('[copy-file-util] ' + error);
+      copyFile.assert(!errorMessage, errorMessage);
       const templateVariables = /{{[^{}]*}}/g;  //example match: "{{package.version}}"
       const targetValue = target!.replace(templateVariables, getPkgField);
       const options: Settings = {
@@ -106,8 +110,7 @@ const copyFile = {
          doubleTarget ?           'Target cannot be both a file and a folder.' :
          badTargetFolder ?        'Target folder cannot be written to: ' + String(targetFolder) :
          null;
-      if (errorMessage)
-         throw new Error('[copy-file-util] ' + errorMessage);
+      copyFile.assert(!errorMessage, errorMessage);
       const createTarget = () => {
          if (settings.move)
             fs.renameSync(source, target);
