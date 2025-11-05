@@ -1,6 +1,8 @@
 // copy-file-util ~~ MIT License
 
 // Imports
+import { cliArgvUtil } from 'cli-argv-util';
+import { dna } from 'dna-engine';
 import { EOL } from 'node:os';
 import chalk from 'chalk';
 import fs    from 'fs';
@@ -10,13 +12,13 @@ import slash from 'slash';
 
 // Types
 export type Settings = {
-   cd:            string,   //change working directory before starting copy
-   targetFile:    string,   //destination path for file copy operation
-   targetFolder:  string,   //destination folder for file copy operation
-   fileExtension: string,   //new file extension for the target file
-   move:          boolean,  //delete the source file after copying it
-   overwrite:     boolean,  //clobber target file if it exists
-   platformEol:   boolean,  //save target file with OS dependent line endings (\n on Unix and \r\n on Windows)
+   cd:            string | null,  //change working directory before starting copy
+   targetFile:    string | null,  //destination path for file copy operation
+   targetFolder:  string | null,  //destination folder for file copy operation
+   fileExtension: string | null,  //new file extension for the target file
+   move:          boolean,        //delete the source file after copying it
+   overwrite:     boolean,        //clobber target file if it exists
+   platformEol:   boolean,        //save target file with OS dependent line endings (\n on Unix and \r\n on Windows)
    };
 export type Result = {
    origin:   string,   //path of origination file
@@ -28,6 +30,43 @@ export type Result = {
 
 const copyFile = {
 
+   cli() {
+      const validFlags =
+         ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol', 'quiet'];
+      const cli =    cliArgvUtil.parse(validFlags);
+      const source = cli.params[0];
+      const target = cli.params[1];
+      const getPkgField = (substring: string) => {  //example: '{{package.version}}' --> '3.1.4'
+         type Pkg =    { [key: string]: string };
+         const pkg =   <Pkg>JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+         const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
+         return <string | undefined>value ?? 'MISSING-FIELD-ERROR';
+         };
+      const error =
+         cli.invalidFlag ?              cli.invalidFlagMsg! :
+         cli.paramCount > 2 ?           'Extraneous parameter: ' + cli.params[2]! :
+         !source ?                      'Missing source file.' :
+         !target && cli.flagOn.folder ? 'Missing target folder.' :
+         !target ?                      'Missing target file.' :
+         null;
+      if (error)
+         throw new Error('[copy-file-util] ' + error);
+      const templateVariables = /{{[^{}]*}}/g;  //example match: "{{package.version}}"
+      const targetValue = target!.replace(templateVariables, getPkgField);
+      const options: Settings = {
+         cd:            cli.flagMap.cd ?? null,
+         targetFile:    !cli.flagOn.folder ? targetValue : null,
+         targetFolder:  cli.flagOn.folder ? targetValue : null,
+         fileExtension: null,
+         move:          !!cli.flagOn.move,
+         overwrite:     !cli.flagOn.noOverwrite,
+         platformEol:   !!cli.flagOn.platformEol,
+         };
+      const result = copyFile.cp(source!, options);
+      if (!cli.flagOn.quiet)
+         copyFile.reporter(result);
+      },
+
    cp(sourceFile: string, options?: Partial<Settings>): Result {
       const defaults = {
          cd:            null,
@@ -38,12 +77,12 @@ const copyFile = {
          overwrite:     true,
          platformEol:   false,
          };
-      const settings =        { ...defaults, ...options };
-      const startTime =       Date.now();
-      const missingTarget =   !settings.targetFile && !settings.targetFolder;
-      const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
-      const cleanPath = (folder: string | null) =>
-         !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
+      const settings =       { ...defaults, ...options };
+      const startTime =      Date.now();
+      const missingTarget =  !settings.targetFile && !settings.targetFolder;
+      const doubleTarget =   !!settings.targetFile && !!settings.targetFolder;
+      const cleanUp =        (folder: string) => slash(path.normalize(folder)).replace(/\/$/, '');
+      const cleanPath =      (folder: string | null) => !folder ? '' : cleanUp(folder);
       const startFolder =    settings.cd ? cleanPath(settings.cd) + '/' : '';
       const source =         sourceFile ? cleanPath(startFolder + sourceFile) : '';
       const sourceExists =   source && fs.existsSync(source);
@@ -64,7 +103,7 @@ const copyFile = {
          !sourceExists ?          'Source file does not exist: ' + source :
          !sourceIsFile ?          'Source is not a file: ' + source :
          missingTarget ?          'Must specify a target file or folder.' :
-         ambiguousTarget ?        'Target cannot be both a file and a folder.' :
+         doubleTarget ?           'Target cannot be both a file and a folder.' :
          badTargetFolder ?        'Target folder cannot be written to: ' + String(targetFolder) :
          null;
       if (errorMessage)
