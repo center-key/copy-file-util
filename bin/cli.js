@@ -17,8 +17,8 @@
 //    $ cd copy-file-util
 //    $ npm install
 //    $ npm test
-//    $ node bin/cli.js --cd=spec/fixtures source/mock.html --folder target/to-folder
-//    $ node bin/cli.js --cd=spec/fixtures source/mock.html target/{{package.type}}/{{package.name}}-v{{package.version}}.html
+//    $ node bin/cli.js --cd=spec/fixtures mock.html --folder target/to-folder
+//    $ node bin/cli.js --cd=spec/fixtures mock.html target/{{package.type}}/{{package.name}}-v{{package.version}}.html
 
 import { copyFile } from '../dist/copy-file.js';
 

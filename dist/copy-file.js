@@ -1,5 +1,7 @@
-//! copy-file-util v1.3.1 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.3.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
+import { cliArgvUtil } from 'cli-argv-util';
+import { dna } from 'dna-engine';
 import { EOL } from 'node:os';
 import chalk from 'chalk';
 import fs from 'fs';
@@ -7,6 +9,42 @@ import log from 'fancy-log';
 import path from 'path';
 import slash from 'slash';
 const copyFile = {
+    assert(condition, errorMessage) {
+        if (!condition)
+            throw new Error('[copy-file-util] ' + String(errorMessage));
+    },
+    cli() {
+        const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol', 'quiet'];
+        const cli = cliArgvUtil.parse(validFlags);
+        const source = cli.params[0];
+        const target = cli.params[1];
+        const getPkgField = (substring) => {
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+            const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
+            return value ?? 'MISSING-FIELD-ERROR';
+        };
+        const errorMessage = cli.invalidFlag ? cli.invalidFlagMsg :
+            cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
+                !source ? 'Missing source file.' :
+                    !target && cli.flagOn.folder ? 'Missing target folder.' :
+                        !target ? 'Missing target file.' :
+                            null;
+        copyFile.assert(!errorMessage, errorMessage);
+        const templateVariables = /{{[^{}]*}}/g;
+        const targetValue = target.replace(templateVariables, getPkgField);
+        const options = {
+            cd: cli.flagMap.cd ?? null,
+            targetFile: !cli.flagOn.folder ? targetValue : null,
+            targetFolder: cli.flagOn.folder ? targetValue : null,
+            fileExtension: null,
+            move: !!cli.flagOn.move,
+            overwrite: !cli.flagOn.noOverwrite,
+            platformEol: !!cli.flagOn.platformEol,
+        };
+        const result = copyFile.cp(source, options);
+        if (!cli.flagOn.quiet)
+            copyFile.reporter(result);
+    },
     cp(sourceFile, options) {
         const defaults = {
             cd: null,
@@ -20,17 +58,18 @@ const copyFile = {
         const settings = { ...defaults, ...options };
         const startTime = Date.now();
         const missingTarget = !settings.targetFile && !settings.targetFolder;
-        const ambiguousTarget = !!settings.targetFile && !!settings.targetFolder;
-        const normalize = (folder) => !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-        const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
-        const source = sourceFile ? normalize(startFolder + sourceFile) : '';
+        const doubleTarget = !!settings.targetFile && !!settings.targetFolder;
+        const cleanUp = (folder) => slash(path.normalize(folder)).replace(/\/$/, '');
+        const cleanPath = (folder) => !folder ? '' : cleanUp(folder);
+        const startFolder = settings.cd ? cleanPath(settings.cd) + '/' : '';
+        const source = sourceFile ? cleanPath(startFolder + sourceFile) : '';
         const sourceExists = source && fs.existsSync(source);
         const sourceIsFile = sourceExists && fs.statSync(source).isFile();
         const sourceFilename = sourceIsFile ? path.basename(source) : null;
         const targetPath = settings.targetFile ? path.dirname(settings.targetFile) : settings.targetFolder;
-        const targetFolder = targetPath ? normalize(startFolder + targetPath) : null;
+        const targetFolder = targetPath ? cleanPath(startFolder + targetPath) : null;
         const targetFile = settings.targetFile ?? `${settings.targetFolder}/${sourceFilename}`;
-        const target = normalize(startFolder + targetFile);
+        const target = cleanPath(startFolder + targetFile);
         const targetExists = !missingTarget && fs.existsSync(target);
         const skip = targetExists && !settings.overwrite;
         if (targetFolder)
@@ -41,11 +80,10 @@ const copyFile = {
                 !sourceExists ? 'Source file does not exist: ' + source :
                     !sourceIsFile ? 'Source is not a file: ' + source :
                         missingTarget ? 'Must specify a target file or folder.' :
-                            ambiguousTarget ? 'Target cannot be both a file and a folder.' :
+                            doubleTarget ? 'Target cannot be both a file and a folder.' :
                                 badTargetFolder ? 'Target folder cannot be written to: ' + String(targetFolder) :
                                     null;
-        if (errorMessage)
-            throw new Error('[copy-file-util] ' + errorMessage);
+        copyFile.assert(!errorMessage, errorMessage);
         const createTarget = () => {
             if (settings.move)
                 fs.renameSync(source, target);
