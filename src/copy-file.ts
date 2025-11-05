@@ -30,9 +30,9 @@ export type Result = {
 
 const copyFile = {
 
-   assert(condition: unknown, errorMessage: unknown) {
-      if (!condition)
-         throw new Error('[copy-file-util] ' + String(errorMessage));
+   assert(ok: unknown, message: string | null) {
+      if (!ok)
+         throw new Error(`[copy-file-util] ${message}`);
       },
 
    cli() {
@@ -47,14 +47,14 @@ const copyFile = {
          const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
          return <string | undefined>value ?? 'MISSING-FIELD-ERROR';
          };
-      const errorMessage =
+      const error =
          cli.invalidFlag ?              cli.invalidFlagMsg! :
          cli.paramCount > 2 ?           'Extraneous parameter: ' + cli.params[2]! :
          !source ?                      'Missing source file.' :
          !target && cli.flagOn.folder ? 'Missing target folder.' :
          !target ?                      'Missing target file.' :
          null;
-      copyFile.assert(!errorMessage, errorMessage);
+      copyFile.assert(!error, error);
       const templateVariables = /{{[^{}]*}}/g;  //example match: "{{package.version}}"
       const targetValue = target!.replace(templateVariables, getPkgField);
       const options: Settings = {
@@ -72,7 +72,7 @@ const copyFile = {
       },
 
    cp(sourceFile: string, options?: Partial<Settings>): Result {
-      const defaults = {
+      const defaults: Settings = {
          cd:            null,
          targetFile:    null,
          targetFolder:  null,
@@ -101,7 +101,7 @@ const copyFile = {
       if (targetFolder)
          fs.mkdirSync(targetFolder, { recursive: true });
       const badTargetFolder = !targetFolder || !fs.existsSync(targetFolder);
-      const errorMessage =
+      const error =
          settings.fileExtension ? 'Option "fileExtension" not yet implemented.' :
          !sourceFile ?            'Must specify the source file.' :
          !sourceExists ?          'Source file does not exist: ' + source :
@@ -110,7 +110,7 @@ const copyFile = {
          doubleTarget ?           'Target cannot be both a file and a folder.' :
          badTargetFolder ?        'Target folder cannot be written to: ' + String(targetFolder) :
          null;
-      copyFile.assert(!errorMessage, errorMessage);
+      copyFile.assert(!error, error);
       const createTarget = () => {
          if (settings.move)
             fs.renameSync(source, target);
