@@ -1,4 +1,20 @@
 // copy-file-util ~~ MIT License
+//
+// Usage in package.json:
+//    "scripts": {
+//       "pub-license": "copy-file src/LICENSE doc/license.txt"
+//    },
+//
+// Usage from command line:
+//    $ npm install --save-dev copy-file-util
+//    $ copy-file src/LICENSE doc/license.txt
+//
+// Contributors to this project:
+//    $ cd copy-file-util
+//    $ npm install
+//    $ npm test
+//    $ node bin/cli.js --cd=spec/fixtures mock.html --folder target/to-folder
+//    $ node bin/cli.js --cd=spec/fixtures mock.html target/{{package.type}}/{{package.name}}-v{{package.version}}.html
 
 // Imports
 import { cliArgvUtil } from 'cli-argv-util';
@@ -134,13 +150,11 @@ const copyFile = {
    reporter(result: Result): Result {
       // Example output:
       //    [10:52:42] copy-file build/app.js → dist/app.js (1ms, moved)
-      const name =   chalk.gray('copy-file');
-      const origin = chalk.blue.bold(result.origin);
-      const dest =   chalk.magenta(result.dest);
-      const arrow =  chalk.gray.bold('→');
-      const status = result.skipped ? ', skip -- target exists' : result.moved ? ', move' : '';
-      const info =   chalk.white(`(${result.duration}ms${status})`);
-      log(name, origin, arrow, dest, info);
+      const name =     chalk.gray('copy-file');
+      const ancestor = cliArgvUtil.calcAncestor(result.origin, result.dest);
+      const status =   result.skipped ? ', skip -- target exists' : result.moved ? ', move' : '';
+      const info =     chalk.white(`(${result.duration}ms${status})`);
+      log(name, ancestor.message, info);
       return result;
       },
 
