@@ -1,4 +1,4 @@
-//! copy-file-util v1.3.2 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.3.3 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { dna } from 'dna-engine';
@@ -9,9 +9,9 @@ import log from 'fancy-log';
 import path from 'path';
 import slash from 'slash';
 const copyFile = {
-    assert(condition, errorMessage) {
-        if (!condition)
-            throw new Error('[copy-file-util] ' + String(errorMessage));
+    assert(ok, message) {
+        if (!ok)
+            throw new Error(`[copy-file-util] ${message}`);
     },
     cli() {
         const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol', 'quiet'];
@@ -23,13 +23,13 @@ const copyFile = {
             const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
             return value ?? 'MISSING-FIELD-ERROR';
         };
-        const errorMessage = cli.invalidFlag ? cli.invalidFlagMsg :
+        const error = cli.invalidFlag ? cli.invalidFlagMsg :
             cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
                 !source ? 'Missing source file.' :
                     !target && cli.flagOn.folder ? 'Missing target folder.' :
                         !target ? 'Missing target file.' :
                             null;
-        copyFile.assert(!errorMessage, errorMessage);
+        copyFile.assert(!error, error);
         const templateVariables = /{{[^{}]*}}/g;
         const targetValue = target.replace(templateVariables, getPkgField);
         const options = {
@@ -75,7 +75,7 @@ const copyFile = {
         if (targetFolder)
             fs.mkdirSync(targetFolder, { recursive: true });
         const badTargetFolder = !targetFolder || !fs.existsSync(targetFolder);
-        const errorMessage = settings.fileExtension ? 'Option "fileExtension" not yet implemented.' :
+        const error = settings.fileExtension ? 'Option "fileExtension" not yet implemented.' :
             !sourceFile ? 'Must specify the source file.' :
                 !sourceExists ? 'Source file does not exist: ' + source :
                     !sourceIsFile ? 'Source is not a file: ' + source :
@@ -83,7 +83,7 @@ const copyFile = {
                             doubleTarget ? 'Target cannot be both a file and a folder.' :
                                 badTargetFolder ? 'Target folder cannot be written to: ' + String(targetFolder) :
                                     null;
-        copyFile.assert(!errorMessage, errorMessage);
+        copyFile.assert(!error, error);
         const createTarget = () => {
             if (settings.move)
                 fs.renameSync(source, target);
@@ -105,12 +105,10 @@ const copyFile = {
     },
     reporter(result) {
         const name = chalk.gray('copy-file');
-        const origin = chalk.blue.bold(result.origin);
-        const dest = chalk.magenta(result.dest);
-        const arrow = chalk.gray.bold('→');
+        const ancestor = cliArgvUtil.calcAncestor(result.origin, result.dest);
         const status = result.skipped ? ', skip -- target exists' : result.moved ? ', move' : '';
         const info = chalk.white(`(${result.duration}ms${status})`);
-        log(name, origin, arrow, dest, info);
+        log(name, ancestor.message, info);
         return result;
     },
 };

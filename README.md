@@ -20,12 +20,16 @@ $ npm install --save-dev copy-file-util
 ```
 
 ## B) Usage
-### 1. npm package.json scripts
-Run `copy-file` from the `"scripts"` section of your **package.json** file.
-
+### 1. Synopsis
+```
+copy-file [SOURCE] [TARGET]
+```
 Parameters:
 * The **first** parameter is the *source* file.
 * The **second** parameter is the *target* file or folder (use the `--folder` flag).
+
+### 2. npm package.json scripts
+Run `copy-file` from the `"scripts"` section of your **package.json** file.
 
 Example **package.json** scripts:
 ```json
@@ -35,7 +39,7 @@ Example **package.json** scripts:
    },
 ```
 
-### 2. Command-line npx
+### 3. Command-line npx
 Example terminal commands:
 ```shell
 $ npm install --save-dev copy-file-util
@@ -43,7 +47,7 @@ $ copy-file src/web/api.html docs/api-manual.html
 ```
 You can also install **copy-file-util** globally (`--global`) and then run it anywhere directly from the terminal.
 
-### 3. CLI flags
+### 4. CLI flags
 Command-line flags:
 | Flag             | Description                                      | Values     |
 | ---------------- | ------------------------------------------------ | ---------- |
@@ -55,7 +59,7 @@ Command-line flags:
 | `--platform-eol` | Save target file with OS dependent line endings. | N/A        |
 | `--quiet`        | Suppress informational messages.                 | N/A        |
 
-### 4. Examples
+### 5. Examples
    - `copy-file app.js app.mjs --quiet`<br>
    Displays no output.
 
@@ -75,9 +79,10 @@ Command-line flags:
    - `copy-file default-config.json settings/config.json --no-overwrite`<br>
    Performs a safe copy that aborts if the **settings/config.json** file already exists.
 
-_**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
+> [!NOTE]
+> _Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
-### 5. Template variables
+### 6. Template variables
 The *target* parameter can contain template variables, like `{{package.version}}` and `{{package.name}}`, which will be replaced with values with values from your project's **package.json** file.
 
 Example:
