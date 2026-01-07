@@ -1,4 +1,4 @@
-//! copy-file-util v1.3.3 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.3.4 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 export type Settings = {
     cd: string | null;
@@ -8,6 +8,7 @@ export type Settings = {
     move: boolean;
     overwrite: boolean;
     platformEol: boolean;
+    removeSemVer: boolean;
 };
 export type Result = {
     origin: string;

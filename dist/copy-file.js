@@ -1,4 +1,4 @@
-//! copy-file-util v1.3.3 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.3.4 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { dna } from 'dna-engine';
@@ -14,7 +14,8 @@ const copyFile = {
             throw new Error(`[copy-file-util] ${message}`);
     },
     cli() {
-        const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol', 'quiet'];
+        const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol',
+            'quiet', 'remove-sem-ver'];
         const cli = cliArgvUtil.parse(validFlags);
         const source = cli.params[0];
         const target = cli.params[1];
@@ -40,6 +41,7 @@ const copyFile = {
             move: !!cli.flagOn.move,
             overwrite: !cli.flagOn.noOverwrite,
             platformEol: !!cli.flagOn.platformEol,
+            removeSemVer: !!cli.flagOn.removeSemVer,
         };
         const result = copyFile.cp(source, options);
         if (!cli.flagOn.quiet)
@@ -54,6 +56,7 @@ const copyFile = {
             move: false,
             overwrite: true,
             platformEol: false,
+            removeSemVer: false,
         };
         const settings = { ...defaults, ...options };
         const startTime = Date.now();
@@ -84,14 +87,21 @@ const copyFile = {
                                 badTargetFolder ? 'Target folder cannot be written to: ' + String(targetFolder) :
                                     null;
         copyFile.assert(!error, error);
+        const rewriteTarget = () => {
+            const semVer = /\s+v[0-9]+\.[0-9]+\.[0-9]+\s+/;
+            const content1 = fs.readFileSync(target, 'utf-8');
+            const content2 = settings.platformEol ? content1.replace(/\r?\n/g, EOL) : content1;
+            const content3 = settings.removeSemVer ? content2.replace(semVer, ' ') : content2;
+            if (content1 !== content3)
+                fs.writeFileSync(target, content3);
+        };
         const createTarget = () => {
             if (settings.move)
                 fs.renameSync(source, target);
             else
                 fs.copyFileSync(source, target);
-            const platformEol = (text) => text.replace(/\r?\n/g, EOL);
-            if (settings.platformEol)
-                fs.writeFileSync(target, platformEol(fs.readFileSync(target, 'utf-8')));
+            if (settings.platformEol || settings.removeSemVer)
+                rewriteTarget();
         };
         if (!skip)
             createTarget();
