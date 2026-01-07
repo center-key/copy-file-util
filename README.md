@@ -49,15 +49,16 @@ You can also install **copy-file-util** globally (`--global`) and then run it an
 
 ### 4. CLI flags
 Command-line flags:
-| Flag             | Description                                      | Values     |
-| ---------------- | ------------------------------------------------ | ---------- |
-| `--cd`           | Change working directory before starting copy.   | **string** |
-| `--folder`       | Indicates the target is a folder.                | N/A        |
-| `--move`         | Delete the source file after copying it.         | N/A        |
-| `--no-overwrite` | Abort if target file already exists.             | N/A        |
-| `--note`         | Place to add a comment only for humans.          | **string** |
-| `--platform-eol` | Save target file with OS dependent line endings. | N/A        |
-| `--quiet`        | Suppress informational messages.                 | N/A        |
+| Flag               | Description                                      | Values     |
+| ------------------ | ------------------------------------------------ | ---------- |
+| `--cd`             | Change working directory before starting copy.   | **string** |
+| `--folder`         | Indicates the target is a folder.                | N/A        |
+| `--move`           | Delete the source file after copying it.         | N/A        |
+| `--no-overwrite`   | Abort if target file already exists.             | N/A        |
+| `--note`           | Place to add a comment only for humans.          | **string** |
+| `--platform-eol`   | Save target file with OS dependent line endings. | N/A        |
+| `--quiet`          | Suppress informational messages.                 | N/A        |
+| `--remove-sem-ver` | Deletes text like 'v1.2.3' to avoid noisy diffs. | N/A        |
 
 ### 5. Examples
    - `copy-file app.js app.mjs --quiet`<br>

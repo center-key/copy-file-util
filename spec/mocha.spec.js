@@ -142,4 +142,11 @@ describe('Executing the CLI', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
+   it('with the --remove-sem-ver flag removes the version number from the file header', () => {
+      run('copy-file dist/copy-file.d.ts --folder spec/target/no-sem-ver --remove-sem-ver');
+      const actual =   fs.readdirSync('spec/target/no-sem-ver');
+      const expected = ['copy-file.d.ts'];
+      assertDeepStrictEqual(actual, expected);
+      });
+
    });
