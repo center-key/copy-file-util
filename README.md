@@ -83,12 +83,17 @@ Command-line flags:
 > [!NOTE]
 > _Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
+> [!NOTE]
+> _To copy multiple files consider using_ [copy-folder-util](https://github.com/center-key/copy-folder-util).
+> _It supports commands like the following to copy all .jpg files from one folder to another folder:_
+> `copy-folder src/website --ext=.jpg docs`
+
 ### 6. Template variables
 The *target* parameter can contain template variables, like `{{package.version}}` and `{{package.name}}`, which will be replaced with values with values from your project's **package.json** file.
 
 Example:
-   - `copy-file build/app.js dist/app-v{{package.version}}.js`<br>
-   Creates a copy of **app.js** named something like **app-v1.2.3.js** based on the version of your project.
+   - `copy-file build/my-app.js dist/my-app-v{{package.version}}.js`<br>
+   Creates a copy of **my-app.js** named something like **my-app-v1.2.3.js** based on the version of your project.
 
 ## C) Application Code
 Even though **copy-file-util** is primarily intended for build scripts, the package can be used programmatically in ESM and TypeScript projects.
