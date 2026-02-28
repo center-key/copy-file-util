@@ -18,7 +18,7 @@
 
 // Imports
 import { cliArgvUtil } from 'cli-argv-util';
-import { dna } from 'dna-engine';
+import { dna } from 'dna-dom';
 import { EOL } from 'node:os';
 import chalk from 'chalk';
 import fs    from 'fs';

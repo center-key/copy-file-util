@@ -84,8 +84,8 @@ Command-line flags:
 > _Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
 > [!NOTE]
-> _To copy multiple files consider using_ [copy-folder-util](https://github.com/center-key/copy-folder-util).
-> _It supports commands like the following to copy all .jpg files from one folder to another folder:_
+> _To copy multiple files consider using_ [copy-folder-util](https://github.com/center-key/copy-folder-util).&nbsp;
+> _It supports commands like the following to copy all **.jpg** files from one folder to another folder:<br>_
 > `copy-folder src/website --ext=.jpg docs`
 
 ### 6. Template variables
