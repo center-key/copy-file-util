@@ -19,11 +19,11 @@
 // Imports
 import { cliArgvUtil } from 'cli-argv-util';
 import { dna } from 'dna-dom';
-import { EOL } from 'node:os';
 import chalk from 'chalk';
-import fs    from 'fs';
+import fs    from 'node:fs';
 import log   from 'fancy-log';
-import path  from 'path';
+import os    from 'node:os';
+import path  from 'node:path';
 import slash from 'slash';
 
 // Types
@@ -133,7 +133,7 @@ const copyFile = {
       const rewriteTarget = () => {
          const semVer =   /\s+v[0-9]+\.[0-9]+\.[0-9]+\s+/;
          const content1 = fs.readFileSync(target, 'utf-8');
-         const content2 = settings.platformEol ?  content1.replace(/\r?\n/g, EOL) : content1;
+         const content2 = settings.platformEol ?  content1.replace(/\r?\n/g, os.EOL) : content1;
          const content3 = settings.removeSemVer ? content2.replace(semVer, ' ') :   content2;
          if (content1 !== content3)
             fs.writeFileSync(target, content3);
