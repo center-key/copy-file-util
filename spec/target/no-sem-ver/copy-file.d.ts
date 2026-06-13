@@ -18,7 +18,7 @@ export type Result = {
     skipped: boolean;
 };
 declare const copyFile: {
-    assert(ok: unknown, message: string | null): void;
+    assertOk(ok: unknown, message: string | null): void;
     cli(): void;
     cp(sourceFile: string, options?: Partial<Settings>): Result;
     reporter(result: Result): Result;

@@ -47,7 +47,7 @@ export type Result = {
 
 const copyFile = {
 
-   assert(ok: unknown, message: string | null) {
+   assertOk(ok: unknown, message: string | null) {
       if (!ok)
          throw new Error(`[copy-file-util] ${message}`);
       },
@@ -71,7 +71,7 @@ const copyFile = {
          !target && cli.flagOn.folder ? 'Missing target folder.' :
          !target ?                      'Missing target file.' :
          null;
-      copyFile.assert(!error, error);
+      copyFile.assertOk(!error, error);
       const templateVariables = /{{[^{}]*}}/g;  //example match: "{{package.version}}"
       const targetValue = target!.replace(templateVariables, getPkgField);
       const options: Settings = {
@@ -129,7 +129,7 @@ const copyFile = {
          doubleTarget ?           'Target cannot be both a file and a folder.' :
          badTargetFolder ?        'Target folder cannot be written to: ' + String(targetFolder) :
          null;
-      copyFile.assert(!error, error);
+      copyFile.assertOk(!error, error);
       const rewriteTarget = () => {
          const semVer =   /\s+v[0-9]+\.[0-9]+\.[0-9]+\s+/;
          const content1 = fs.readFileSync(target, 'utf-8');
