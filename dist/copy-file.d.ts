@@ -1,4 +1,4 @@
-//! copy-file-util v1.3.5 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.3.6 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 export type Settings = {
     cd: string | null;
@@ -18,9 +18,10 @@ export type Result = {
     skipped: boolean;
 };
 declare const copyFile: {
-    assert(ok: unknown, message: string | null): void;
-    cli(): void;
+    version: string;
+    assertOk(ok: unknown, message: string | null): void;
     cp(sourceFile: string, options?: Partial<Settings>): Result;
     reporter(result: Result): Result;
+    cli(): void;
 };
 export { copyFile };

@@ -1,4 +1,4 @@
-//! copy-file-util v1.3.5 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.3.6 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { dna } from 'dna-dom';
@@ -9,43 +9,10 @@ import os from 'node:os';
 import path from 'node:path';
 import slash from 'slash';
 const copyFile = {
-    assert(ok, message) {
+    version: '1.3.6',
+    assertOk(ok, message) {
         if (!ok)
             throw new Error(`[copy-file-util] ${message}`);
-    },
-    cli() {
-        const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol',
-            'quiet', 'remove-sem-ver'];
-        const cli = cliArgvUtil.parse(validFlags);
-        const source = cli.params[0];
-        const target = cli.params[1];
-        const getPkgField = (substring) => {
-            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
-            const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
-            return value ?? 'MISSING-FIELD-ERROR';
-        };
-        const error = cli.invalidFlag ? cli.invalidFlagMsg :
-            cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
-                !source ? 'Missing source file.' :
-                    !target && cli.flagOn.folder ? 'Missing target folder.' :
-                        !target ? 'Missing target file.' :
-                            null;
-        copyFile.assert(!error, error);
-        const templateVariables = /{{[^{}]*}}/g;
-        const targetValue = target.replace(templateVariables, getPkgField);
-        const options = {
-            cd: cli.flagMap.cd ?? null,
-            targetFile: !cli.flagOn.folder ? targetValue : null,
-            targetFolder: cli.flagOn.folder ? targetValue : null,
-            fileExtension: null,
-            move: !!cli.flagOn.move,
-            overwrite: !cli.flagOn.noOverwrite,
-            platformEol: !!cli.flagOn.platformEol,
-            removeSemVer: !!cli.flagOn.removeSemVer,
-        };
-        const result = copyFile.cp(source, options);
-        if (!cli.flagOn.quiet)
-            copyFile.reporter(result);
     },
     cp(sourceFile, options) {
         const defaults = {
@@ -86,7 +53,7 @@ const copyFile = {
                             doubleTarget ? 'Target cannot be both a file and a folder.' :
                                 badTargetFolder ? 'Target folder cannot be written to: ' + String(targetFolder) :
                                     null;
-        copyFile.assert(!error, error);
+        copyFile.assertOk(!error, error);
         const rewriteTarget = () => {
             const semVer = /\s+v[0-9]+\.[0-9]+\.[0-9]+\s+/;
             const content1 = fs.readFileSync(target, 'utf-8');
@@ -120,6 +87,40 @@ const copyFile = {
         const info = chalk.white(`(${result.duration}ms${status})`);
         log(name, ancestor.message, info);
         return result;
+    },
+    cli() {
+        const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol',
+            'quiet', 'remove-sem-ver'];
+        const cli = cliArgvUtil.parse(validFlags);
+        const source = cli.params[0];
+        const target = cli.params[1];
+        const getPkgField = (substring) => {
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+            const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
+            return value ?? 'MISSING-FIELD-ERROR';
+        };
+        const error = cli.invalidFlag ? cli.invalidFlagMsg :
+            cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
+                !source ? 'Missing source file.' :
+                    !target && cli.flagOn.folder ? 'Missing target folder.' :
+                        !target ? 'Missing target file.' :
+                            null;
+        copyFile.assertOk(!error, error);
+        const templateVariables = /{{[^{}]*}}/g;
+        const targetValue = target.replace(templateVariables, getPkgField);
+        const options = {
+            cd: cli.flagMap.cd ?? null,
+            targetFile: !cli.flagOn.folder ? targetValue : null,
+            targetFolder: cli.flagOn.folder ? targetValue : null,
+            fileExtension: null,
+            move: !!cli.flagOn.move,
+            overwrite: !cli.flagOn.noOverwrite,
+            platformEol: !!cli.flagOn.platformEol,
+            removeSemVer: !!cli.flagOn.removeSemVer,
+        };
+        const result = copyFile.cp(source, options);
+        if (!cli.flagOn.quiet)
+            copyFile.reporter(result);
     },
 };
 export { copyFile };

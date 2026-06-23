@@ -54,43 +54,6 @@ const copyFile = {
          throw new Error(`[copy-file-util] ${message}`);
       },
 
-   cli() {
-      const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol',
-         'quiet', 'remove-sem-ver'];
-      const cli =    cliArgvUtil.parse(validFlags);
-      const source = cli.params[0];
-      const target = cli.params[1];
-      const getPkgField = (substring: string) => {  //example: '{{package.version}}' --> '3.1.4'
-         type Pkg =    { [key: string]: string };
-         const pkg =   <Pkg>JSON.parse(fs.readFileSync('package.json', 'utf-8'));
-         const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
-         return <string | undefined>value ?? 'MISSING-FIELD-ERROR';
-         };
-      const error =
-         cli.invalidFlag ?              cli.invalidFlagMsg! :
-         cli.paramCount > 2 ?           'Extraneous parameter: ' + cli.params[2]! :
-         !source ?                      'Missing source file.' :
-         !target && cli.flagOn.folder ? 'Missing target folder.' :
-         !target ?                      'Missing target file.' :
-         null;
-      copyFile.assertOk(!error, error);
-      const templateVariables = /{{[^{}]*}}/g;  //example match: "{{package.version}}"
-      const targetValue = target!.replace(templateVariables, getPkgField);
-      const options: Settings = {
-         cd:            cli.flagMap.cd ?? null,
-         targetFile:    !cli.flagOn.folder ? targetValue : null,
-         targetFolder:  cli.flagOn.folder ? targetValue : null,
-         fileExtension: null,
-         move:          !!cli.flagOn.move,
-         overwrite:     !cli.flagOn.noOverwrite,
-         platformEol:   !!cli.flagOn.platformEol,
-         removeSemVer:  !!cli.flagOn.removeSemVer,
-         };
-      const result = copyFile.cp(source!, options);
-      if (!cli.flagOn.quiet)
-         copyFile.reporter(result);
-      },
-
    cp(sourceFile: string, options?: Partial<Settings>): Result {
       const defaults: Settings = {
          cd:            null,
@@ -168,6 +131,43 @@ const copyFile = {
       const info =     chalk.white(`(${result.duration}ms${status})`);
       log(name, ancestor.message, info);
       return result;
+      },
+
+   cli() {
+      const validFlags = ['cd', 'folder', 'move', 'no-overwrite', 'note', 'platform-eol',
+         'quiet', 'remove-sem-ver'];
+      const cli =    cliArgvUtil.parse(validFlags);
+      const source = cli.params[0];
+      const target = cli.params[1];
+      const getPkgField = (substring: string) => {  //example: '{{package.version}}' --> '3.1.4'
+         type Pkg =    { [key: string]: string };
+         const pkg =   <Pkg>JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+         const value = dna.util.value({ package: pkg }, substring.replace(/[{}]/g, ''));
+         return <string | undefined>value ?? 'MISSING-FIELD-ERROR';
+         };
+      const error =
+         cli.invalidFlag ?              cli.invalidFlagMsg! :
+         cli.paramCount > 2 ?           'Extraneous parameter: ' + cli.params[2]! :
+         !source ?                      'Missing source file.' :
+         !target && cli.flagOn.folder ? 'Missing target folder.' :
+         !target ?                      'Missing target file.' :
+         null;
+      copyFile.assertOk(!error, error);
+      const templateVariables = /{{[^{}]*}}/g;  //example match: "{{package.version}}"
+      const targetValue = target!.replace(templateVariables, getPkgField);
+      const options: Settings = {
+         cd:            cli.flagMap.cd ?? null,
+         targetFile:    !cli.flagOn.folder ? targetValue : null,
+         targetFolder:  cli.flagOn.folder ? targetValue : null,
+         fileExtension: null,
+         move:          !!cli.flagOn.move,
+         overwrite:     !cli.flagOn.noOverwrite,
+         platformEol:   !!cli.flagOn.platformEol,
+         removeSemVer:  !!cli.flagOn.removeSemVer,
+         };
+      const result = copyFile.cp(source!, options);
+      if (!cli.flagOn.quiet)
+         copyFile.reporter(result);
       },
 
    };
