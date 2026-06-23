@@ -47,6 +47,8 @@ export type Result = {
 
 const copyFile = {
 
+   version: '{{package.version}}',
+
    assertOk(ok: unknown, message: string | null) {
       if (!ok)
          throw new Error(`[copy-file-util] ${message}`);

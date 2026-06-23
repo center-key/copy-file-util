@@ -18,6 +18,7 @@ export type Result = {
     skipped: boolean;
 };
 declare const copyFile: {
+    version: string;
     assertOk(ok: unknown, message: string | null): void;
     cli(): void;
     cp(sourceFile: string, options?: Partial<Settings>): Result;
