@@ -1,4 +1,4 @@
-//! copy-file-util v1.3.6 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
+//! copy-file-util v1.3.7 ~~ https://github.com/center-key/copy-file-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { dna } from 'dna-dom';
@@ -9,7 +9,7 @@ import os from 'node:os';
 import path from 'node:path';
 import slash from 'slash';
 const copyFile = {
-    version: '1.3.6',
+    version: '1.3.7',
     assertOk(ok, message) {
         if (!ok)
             throw new Error(`[copy-file-util] ${message}`);
@@ -82,10 +82,11 @@ const copyFile = {
     },
     reporter(result) {
         const name = chalk.gray('copy-file');
+        const version = chalk.gray('v' + copyFile.version);
         const ancestor = cliArgvUtil.calcAncestor(result.origin, result.dest);
         const status = result.skipped ? ', skip -- target exists' : result.moved ? ', move' : '';
         const info = chalk.white(`(${result.duration}ms${status})`);
-        log(name, ancestor.message, info);
+        log(name, version, ancestor.message, info);
         return result;
     },
     cli() {
