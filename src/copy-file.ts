@@ -127,10 +127,10 @@ const copyFile = {
       //    [10:52:42] copy-file build/app.js → dist/app.js (1ms, moved)
       const name =     chalk.gray('copy-file');
       const version =  chalk.gray('v' + copyFile.version);
-      const ancestor = cliArgvUtil.calcAncestor(result.origin, result.dest);
+      const ancestor = cliArgvUtil.calcAncestor(result.origin, result.dest).message;
       const status =   result.skipped ? ', skip -- target exists' : result.moved ? ', move' : '';
       const info =     chalk.white(`(${result.duration}ms${status})`);
-      log(name, version, ancestor.message, info);
+      log(name, version, ancestor, info);
       return result;
       },
 
