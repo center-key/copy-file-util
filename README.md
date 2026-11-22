@@ -28,7 +28,7 @@ Parameters:
 * The **first** parameter is the *source* file.
 * The **second** parameter is the *target* file or folder (use the `--folder` flag).
 
-### 2. npm package.json scripts
+### 2. npm `package.json` Scripts
 Run `copy-file` from the `"scripts"` section of your **package.json** file.
 
 Example **package.json** scripts:
@@ -39,7 +39,7 @@ Example **package.json** scripts:
    },
 ```
 
-### 3. Command-line npx
+### 3. Command-Line npx
 Example terminal commands:
 ```shell
 $ npm install --save-dev copy-file-util
@@ -47,7 +47,7 @@ $ copy-file src/web/api.html docs/api-manual.html
 ```
 You can also install **copy-file-util** globally (`--global`) and then run it anywhere directly from the terminal.
 
-### 4. CLI flags
+### 4. CLI Flags
 Command-line flags:
 | Flag               | Description                                      | Values     |
 | ------------------ | ------------------------------------------------ | ---------- |
@@ -88,7 +88,7 @@ Command-line flags:
 > _It supports commands like the following to copy all **.jpg** files from one folder to another folder:<br>_
 > `copy-folder src/website --ext=.jpg docs`
 
-### 6. Template variables
+### 6. Template Variables
 The *target* parameter can contain template variables, like `{{package.version}}` and `{{package.name}}`, which will be replaced with values with values from your project's **package.json** file.
 
 Example:
